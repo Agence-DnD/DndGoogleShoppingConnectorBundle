@@ -1,0 +1,6 @@
+services:
+    dnd_google_shopping_connector.saver.google_category:
+        class: Dnd\Bundle\GoogleShoppingConnectorBundle\Doctrine\Common\Saver\GoogleCategorySaver
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@akeneo_storage_utils.saver.base_options_resolver'

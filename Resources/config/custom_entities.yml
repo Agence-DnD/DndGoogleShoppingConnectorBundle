@@ -1,0 +1,8 @@
+custom_entities:
+    googleCategory:
+        entity_class: Dnd\Bundle\GoogleShoppingConnectorBundle\Entity\GoogleCategory
+        actions:
+            edit:
+                form_type: google_shopping_connector_enrich_google_category
+            create:
+                form_type: google_shopping_connector_enrich_google_category

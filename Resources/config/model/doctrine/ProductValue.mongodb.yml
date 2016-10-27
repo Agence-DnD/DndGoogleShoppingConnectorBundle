@@ -1,0 +1,6 @@
+Dnd\Bundle\GoogleShoppingConnectorBundle\Model\ProductValue:
+    type: embeddedDocument
+    fields:
+        googleCategory:
+            type: entity
+            targetEntity: Dnd\Bundle\GoogleShoppingConnectorBundle\Entity\GoogleCategory

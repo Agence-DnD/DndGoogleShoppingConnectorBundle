@@ -1,0 +1,6 @@
+parameters:
+    dnd_google_shopping_connector.reader.google_csv.class: Dnd\Bundle\GoogleShoppingConnectorBundle\Reader\GoogleCsvReader
+
+services:
+    dnd_google_shopping_connector.reader.google_csv:
+      class: %dnd_google_shopping_connector.reader.google_csv.class%

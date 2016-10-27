@@ -1,0 +1,8 @@
+services:
+    dnd_google_shopping_connector_custom_entity.repository.google_category:
+        class: Pim\Bundle\CustomEntityBundle\Entity\Repository\CustomEntityRepository
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+        arguments: [%google_shopping_connector.entity.google_category.class%]
+        tags:
+            - { name: 'pim_repository' }

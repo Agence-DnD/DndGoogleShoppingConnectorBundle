@@ -1,0 +1,12 @@
+oro_menu_config:
+    items:
+        google_shopping_connector_enrich_google_category:
+            label:              'pim_custom_entity.reference_data.google_category.menu_entry'
+            route:              'pim_customentity_index'
+            routeParameters:    { customEntityName: googleCategory }
+    tree:
+        application_menu:
+            children:
+                pim_reference_data_tab:
+                    children:
+                        google_shopping_connector_enrich_google_category: ~

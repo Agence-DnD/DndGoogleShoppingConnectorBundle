@@ -1,0 +1,25 @@
+Dnd\Bundle\GoogleShoppingConnectorBundle\Entity\GoogleCategory:
+    repositoryClass: Pim\Bundle\CustomEntityBundle\Entity\Repository\CustomEntityRepository
+    type: entity
+    table: google_category
+    changeTrackingPolicy: DEFERRED_EXPLICIT
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        code:
+            type: string
+            length: 255
+            unique: true
+        sortOrder:
+            type: integer
+    lifecycleCallbacks: {  }
+    oneToMany:
+        translations:
+            targetEntity: Dnd\Bundle\GoogleShoppingConnectorBundle\Model\GoogleCategoryTranslationInterface
+            mappedBy: foreignKey
+            cascade:
+                - persist
+                - detach
