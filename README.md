@@ -3,7 +3,7 @@ GoogleShoppingConnectorBundle
 
 Google Shopping Connector for Akeneo PIM >= 1.5
 
-This connector allow you to export your products into XML for Google Shopping.
+This connector allows you to export your products into XML for Google Shopping.
 
 ## Requirements
 
