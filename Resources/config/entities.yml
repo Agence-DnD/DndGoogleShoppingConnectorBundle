@@ -1,4 +1,5 @@
 parameters:
     pim_catalog.entity.product_value.class:                             Dnd\Bundle\GoogleShoppingConnectorBundle\Model\ProductValue
+    pim_catalog.entity.category.class:                                  Dnd\Bundle\GoogleShoppingConnectorBundle\Entity\Category
     google_shopping_connector.entity.google_category.class:             Dnd\Bundle\GoogleShoppingConnectorBundle\Entity\GoogleCategory
     google_shopping_connector.entity.google_category_translation.class: Dnd\Bundle\GoogleShoppingConnectorBundle\Entity\GoogleCategoryTranslation

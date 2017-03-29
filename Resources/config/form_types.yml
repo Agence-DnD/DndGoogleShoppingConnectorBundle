@@ -1,3 +1,7 @@
+parameters:
+    pim_enrich.form.type.category.class: Dnd\Bundle\GoogleShoppingConnectorBundle\Form\Type\CategoryType
+    pim_enrich.view_element.category.tab.property.template: 'DndGoogleShoppingConnectorBundle:CategoryTree:Tab/property.html.twig'
+
 services:
     google_shopping_connector_custom.form.type.google_category:
         class: Dnd\Bundle\GoogleShoppingConnectorBundle\Form\Type\GoogleCategoryType
