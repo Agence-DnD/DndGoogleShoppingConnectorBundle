@@ -1,12 +1,10 @@
 <?php
 
 namespace Dnd\Bundle\GoogleShoppingConnectorBundle\Writer\File;
-
 use Akeneo\Component\Batch\Job\RuntimeErrorException;
 use Akeneo\Component\Buffer\BufferFactory;
 use Akeneo\Component\Buffer\BufferInterface;
 use Pim\Bundle\CatalogBundle\Entity\Locale;
-use Pim\Bundle\CustomEntityBundle\Entity\Repository\CustomEntityRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 use Pim\Component\Connector\Writer\File\AbstractFileWriter;
 use Pim\Component\Connector\Writer\File\ArchivableWriterInterface;
@@ -19,13 +17,6 @@ use Doctrine\Common\Persistence\ObjectRepository;
 use Akeneo\Component\Batch\Item\InvalidItemException;
 use Akeneo\Component\FileStorage\Repository\FileInfoRepositoryInterface;
 
-/**
- * Write data into a xml file for Google Shopping
- *
- * @author    Florian Fauvel <florian.fauvel@dnd.fr>
- * @copyright 2016 Agence Dn'D (http://www.dnd.fr)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
 class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInterface
 {
 
@@ -126,7 +117,7 @@ class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInt
     protected $currency;
 
     /** @var ObjectRepository */
-    protected $googleRepository;
+    protected $categoryRepository;
 
     /** @var string */
     protected $pimMediaUrl;
@@ -149,7 +140,7 @@ class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInt
         AttributeRepositoryInterface $attributeRepository,
         LocaleRepositoryInterface $localeRepository,
         CurrencyRepositoryInterface $currencyRepository,
-        ObjectRepository $googleRepository,
+        ObjectRepository $categoryRepository,
         FileInfoRepositoryInterface $fileInfoRepository
     ) {
         parent::__construct($filePathResolver);
@@ -158,7 +149,7 @@ class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInt
         $this->attributeRepository = $attributeRepository;
         $this->localeRepository    = $localeRepository;
         $this->currencyRepository  = $currencyRepository;
-        $this->googleRepository    = $googleRepository;
+        $this->categoryRepository    = $categoryRepository;
         $this->fileInfoRepository   = $fileInfoRepository;
     }
 
@@ -513,22 +504,6 @@ class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInt
     /**
      * @return string
      */
-    public function getGoogleCategory()
-    {
-        return $this->googleCategory;
-    }
-
-    /**
-     * @param string $googleCategory
-     */
-    public function setGoogleCategory($googleCategory)
-    {
-        $this->googleCategory = $googleCategory;
-    }
-
-    /**
-     * @return string
-     */
     public function getGoogleDescription()
     {
         return $this->googleDescription;
@@ -681,9 +656,9 @@ class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInt
 
         foreach ($items as $product) {
             $product['product'] = $this->formatProductArray($product['product']);
-            $googleCategoryName = $this->getGoogleCategoryName($product['product'][$this->getGoogleCategory()]);
+            $googleCategory = $product['product'][$this->getGoogleCategory($product)];
 
-            if (!$googleCategoryName) {
+            if (!$googleCategory) {
                 $this->setItemError($product, 'job_execution.summary.undefined_google_category');
             }
 
@@ -695,7 +670,7 @@ class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInt
 
             $this->addItemChild('g:description', $product['product'][$this->getGoogleDescription()], $item, $xml);
 
-            $this->addItemChild('g:google_product_category', htmlentities($googleCategoryName), $item, $xml);
+            $this->addItemChild('g:google_product_category', htmlentities($googleCategory), $item, $xml);
 
             $this->addItemChild('g:link', $product['product'][$this->getGoogleLink()], $item, $xml);
 
@@ -750,13 +725,12 @@ class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInt
     }
 
     /**
-     * Add new node to xml item node
+     * @param $nodeName
+     * @param $value
+     * @param $item
+     * @param $xml
      *
-     * @param string $nodeName
-     * @param string $value
-     * @param \DomElement $item
-     * @param \DomDocument $xml
-     * @return boolean \ \DOMElement
+     * @return bool
      */
     protected function addItemChild($nodeName, $value, $item, $xml)
     {
@@ -867,16 +841,6 @@ class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInt
                             'select2'  => true,
                             'label'    => 'dnd_google_shopping_connector.export.googleDescription.label',
                             'help'     => 'dnd_google_shopping_connector.export.googleDescription.help'
-                        ]
-                    ],
-                    'googleCategory' => [
-                        'type'    => 'choice',
-                        'options' => [
-                            'choices'  => $this->getAttributesChoices(),
-                            'required' => true,
-                            'select2'  => true,
-                            'label'    => 'dnd_google_shopping_connector.export.googleCategory.label',
-                            'help'     => 'dnd_google_shopping_connector.export.googleCategory.help'
                         ]
                     ],
                     'googleLink' => [
@@ -1141,17 +1105,14 @@ class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInt
     }
 
     /**
-     * Retrieve google category name by code
-     * @param  string $googleCategoryCode
-     * @return string
+     * @param $product
+     *
+     * @return mixed
      */
-    protected function getGoogleCategoryName($googleCategoryCode)
+    protected function getGoogleCategory($product)
     {
-        $googleCategory = $this->googleRepository->findOneByCode($googleCategoryCode);
-        if (null === $googleCategory) {
-            return false;
-        }
-        return $googleCategory->getTranslation($this->getLocale())->getName();
+        return $googleCategory = $product['product']['categories'];
+
     }
 
     /**
@@ -1168,5 +1129,4 @@ class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInt
 
         throw new InvalidItemException($error, $item);
     }
-
 }

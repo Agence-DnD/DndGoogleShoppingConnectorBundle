@@ -20,17 +20,10 @@ class DndGoogleShoppingConnectorExtension extends Extension
     /**
      * {@inheritdoc}
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $config, ContainerBuilder $container)
     {
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('readers.yml');
-        $loader->load('processors.yml');
-        $loader->load('writers.yml');
-        $loader->load('entities.yml');
-        $loader->load('models.yml');
-        $loader->load('form_types.yml');
-        $loader->load('savers.yml');
-        $loader->load('repositories.yml');
     }
-    
+
 }
