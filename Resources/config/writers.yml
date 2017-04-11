@@ -1,0 +1,12 @@
+parameters:
+    dnd_google_shopping_connector.writer.file.xml_product.class: Dnd\Bundle\GoogleShoppingConnectorBundle\Writer\File\XmlProductWriter
+services:
+    dnd_google_shopping_connector.writer.file.xml_product:
+        class: %dnd_google_shopping_connector.writer.file.xml_product.class%
+        arguments:
+            - '@pim_connector.writer.file.file_path_resolver'
+            - '@akeneo_buffer.factory.array_buffer'
+            - '@pim_catalog.repository.attribute'
+            - '@pim_catalog.repository.locale'
+            - '@pim_catalog.repository.currency'
+            - '@akeneo_file_storage.repository.file_info'

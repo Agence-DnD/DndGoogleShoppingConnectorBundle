@@ -1,0 +1,120 @@
+dnd_google_shopping_connector:
+  jobs:
+    xml_product_export:
+      title:        Export products for Google Shopping in XML
+      export.title: Products export fo Google Shopping
+    csv_google_categories_import:
+      title:        Import Google Shopping categories in CSV
+      import.title: Import Google Shopping categories
+  import:
+    googleCategoriesAttribute:
+      label: Google Shopping categories attribute
+      help:  Code of the Google Shopping categories attribute
+    category:
+      label: Category Parent
+      help: Select the category parent you want to import in
+  export:
+    title:
+      label: Title
+      help:  Google shopping channel title
+    description:
+      label: Description
+      help:  Google shopping channel description
+    websiteLink:
+      label: Website link
+      help:  Google shopping channel website link
+    locale:
+      label: Language
+      help:  Products language
+    currency:
+      label: Currency
+      help:  Products price currency
+    googleId:
+      label: Product id
+      help:  Attribute use for products id
+    googleTitle:
+      label: Product title
+      help:  Attribute use for products title
+    googleDescription:
+      label: Product description
+      help:  Attribute use for products description
+    googleCategory:
+      label: Product category
+      help:  Attribute use for products google category (see the documentation to get the list)
+    googleLink:
+      label: Product link
+      help:  Attribute use for products link (product url on your shop website)
+    googleImagesLink:
+      label: Product images link
+      help:  Products Images link
+    googleCondition:
+      choice:
+        new:         new
+        refurbished: refurbished
+        used:        used
+      label: Product condition
+      help:  Select the condition of your products
+    googleAvailability:
+      choice:
+        preorder:     preorder
+        in_stock:     in stock
+        out_of_stock: out of stock
+      label: Product availabality
+      help:  Select the availabality of your products
+    googlePrice:
+      label: Product price
+      help:  Attribute use for products price
+    googleGtin:
+      label: Product gtin
+      help:  Attribute use for products gtin (EAN, ISBN, ...)
+    googleBrand:
+      label: Product brand
+      help:  Attribute use for products brand
+    googleColor:
+      label: Product color
+      help:  Attribute use for products color
+    googleGender:
+      label: Product gender
+      help:  Attribute use for products gender
+    googleAgeGroup:
+      label: Product age group
+      help:  Attribute use for products age group
+    googleMaterial:
+      label: Product material
+      help:  Attribute use for products material
+    googlePattern:
+      label: Product pattern
+      help:  Attribute use for products pattern
+    googleSize:
+      label: Product size
+      help:  Attribute use for products size
+    googlePersonalizeOne:
+      label: Product custom label 0
+      help:  Attribute use for custom label 0
+    googlePersonalizeTwo:
+      label: Product custom label 1
+      help:  Attribute use for custom label 1
+    googlePersonalizeThree:
+      label: Product custom label 2
+      help:  Attribute use for custom label 2
+    googlePersonalizeFour:
+      label: Product custom label 3
+      help:  Attribute use for custom label 3
+    googlePersonalizeFive:
+      label: Product custom label 4
+      help:  Attribute use for custom label 4
+    pimMediaUrl:
+      label: PIM URL
+      help:  Fill the url of your PIM if you use image attributes (example : http://www.pimdomain.com/)
+pim_custom_entity:
+    reference_data:
+      google_category.menu_entry: Manage Google Categories
+googleCategory:
+    title: List Google categories
+    overview: List Google categories
+    create: Create a Google category
+    edit: Modify a Google category
+    delete: Remove a Google category
+    confirmation.remove: Are you sure you want to remove this Google category?
+btn.create.googleCategory: Create a Google category
+confirmation.remove.googleCategory: Are you sure you want to remove this Google category?

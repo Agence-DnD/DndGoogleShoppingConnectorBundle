@@ -14,3 +14,15 @@ connector:
                     parameters:
                         batch_size: 10
 
+        xml_product_export:
+            title: dnd_google_shopping_connector.jobs.xml_product_export.title
+            type:  export
+            steps:
+                export:
+                    title:     dnd_google_shopping_connector.jobs.xml_product_export.export.title
+                    services:
+                        reader:    pim_base_connector.reader.doctrine.product
+                        processor: dnd_google_shopping_connector.processor.product_to_flat_array
+                        writer:    dnd_google_shopping_connector.writer.file.xml_product
+                    parameters:
+                        batch_size: 10

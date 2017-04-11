@@ -5,3 +5,5 @@ services:
     pim_connector.reader.file.google_category:
         class: %pim_connector.reader.file.google_category.class%
         parent: 'pim_connector.reader.file.csv'
+        arguments:
+            - '@pim_catalog.repository.category'

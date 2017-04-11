@@ -1,6 +1,7 @@
 <?php
 
 namespace Dnd\Bundle\GoogleShoppingConnectorBundle\Writer\File;
+
 use Akeneo\Component\Batch\Job\RuntimeErrorException;
 use Akeneo\Component\Buffer\BufferFactory;
 use Akeneo\Component\Buffer\BufferInterface;
@@ -17,6 +18,13 @@ use Doctrine\Common\Persistence\ObjectRepository;
 use Akeneo\Component\Batch\Item\InvalidItemException;
 use Akeneo\Component\FileStorage\Repository\FileInfoRepositoryInterface;
 
+/**
+ * Write data into a xml file for Google Shopping
+ *
+ * @author    Florian Fauvel <florian.fauvel@dnd.fr>
+ * @copyright 2016 Agence Dn'D (http://www.dnd.fr)
+ * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInterface
 {
 
@@ -40,9 +48,6 @@ class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInt
 
     /** @var string */
     protected $googleDescription;
-
-    /** @var string */
-    protected $googleCategory;
 
     /** @var string */
     protected $googleLink;
@@ -117,7 +122,7 @@ class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInt
     protected $currency;
 
     /** @var ObjectRepository */
-    protected $categoryRepository;
+    protected $googleRepository;
 
     /** @var string */
     protected $pimMediaUrl;
@@ -131,7 +136,6 @@ class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInt
      * @param AttributeRepositoryInterface $attributeRepository
      * @param LocaleRepositoryInterface    $localeRepository
      * @param CurrencyRepositoryInterface  $currencyRepository
-     * @param ObjectRepository             $googleRepository
      * @param FileInfoRepositoryInterface  $fileInfoRepository
      */
     public function __construct(
@@ -140,17 +144,15 @@ class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInt
         AttributeRepositoryInterface $attributeRepository,
         LocaleRepositoryInterface $localeRepository,
         CurrencyRepositoryInterface $currencyRepository,
-        ObjectRepository $categoryRepository,
         FileInfoRepositoryInterface $fileInfoRepository
     ) {
         parent::__construct($filePathResolver);
 
-        $this->buffer              = $bufferFactory->create();
+        $this->buffer = $bufferFactory->create();
         $this->attributeRepository = $attributeRepository;
-        $this->localeRepository    = $localeRepository;
-        $this->currencyRepository  = $currencyRepository;
-        $this->categoryRepository    = $categoryRepository;
-        $this->fileInfoRepository   = $fileInfoRepository;
+        $this->localeRepository = $localeRepository;
+        $this->currencyRepository = $currencyRepository;
+        $this->fileInfoRepository = $fileInfoRepository;
     }
 
     /**
@@ -611,16 +613,18 @@ class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInt
      */
     public function getPimMediaUrl()
     {
-        return rtrim($this->pimMediaUrl, '/') . '/';
+        return rtrim($this->pimMediaUrl, '/').'/';
     }
 
     /**
      * @param string $pimMediaUrl
+     *
      * @return XmlProductWriter
      */
     public function setPimMediaUrl($pimMediaUrl)
     {
         $this->pimMediaUrl = $pimMediaUrl;
+
         return $this;
     }
 
@@ -629,7 +633,7 @@ class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInt
      */
     public function write(array $items)
     {
-
+        
         if (false === file_exists($this->getPath())) {
             $xml = new \DOMDocument('1.0', 'utf-8');
             $rss = $xml->createElement('rss');
@@ -645,7 +649,7 @@ class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInt
             $rss->appendChild($channel);
             $xml->appendChild($rss);
         } else {
-            $xml = new \DOMDocument('1.0','utf-8');
+            $xml = new \DOMDocument('1.0', 'utf-8');
             $content = file_get_contents($this->getPath());
             $content = html_entity_decode($content);
             $xml->formatOutput = true;
@@ -656,11 +660,7 @@ class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInt
 
         foreach ($items as $product) {
             $product['product'] = $this->formatProductArray($product['product']);
-            $googleCategory = $product['product'][$this->getGoogleCategory($product)];
 
-            if (!$googleCategory) {
-                $this->setItemError($product, 'job_execution.summary.undefined_google_category');
-            }
 
             $item = $xml->createElement('item');
 
@@ -670,7 +670,7 @@ class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInt
 
             $this->addItemChild('g:description', $product['product'][$this->getGoogleDescription()], $item, $xml);
 
-            $this->addItemChild('g:google_product_category', htmlentities($googleCategory), $item, $xml);
+            $this->addItemChild('g:google_product_category', $product['product']['categories'], $item, $xml);
 
             $this->addItemChild('g:link', $product['product'][$this->getGoogleLink()], $item, $xml);
 
@@ -702,11 +702,26 @@ class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInt
 
             $this->addItemChild('g:custom_label_1', $product['product'][$this->getGooglePersonalizeTwo()], $item, $xml);
 
-            $this->addItemChild('g:custom_label_2', $product['product'][$this->getGooglePersonalizeThree()], $item, $xml);
+            $this->addItemChild(
+                'g:custom_label_2',
+                $product['product'][$this->getGooglePersonalizeThree()],
+                $item,
+                $xml
+            );
 
-            $this->addItemChild('g:custom_label_3', $product['product'][$this->getGooglePersonalizeFour()], $item, $xml);
+            $this->addItemChild(
+                'g:custom_label_3',
+                $product['product'][$this->getGooglePersonalizeFour()],
+                $item,
+                $xml
+            );
 
-            $this->addItemChild('g:custom_label_4', $product['product'][$this->getGooglePersonalizeFive()], $item, $xml);
+            $this->addItemChild(
+                'g:custom_label_4',
+                $product['product'][$this->getGooglePersonalizeFive()],
+                $item,
+                $xml
+            );
 
             $channel->appendChild($item);
             $xml->formatOutput = true;
@@ -725,19 +740,23 @@ class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInt
     }
 
     /**
-     * @param $nodeName
-     * @param $value
-     * @param $item
-     * @param $xml
+     * Add new node to xml item node
      *
-     * @return bool
+     * @param string       $nodeName
+     * @param string       $value
+     * @param \DomElement  $item
+     * @param \DomDocument $xml
+     *
+     * @return boolean
      */
     protected function addItemChild($nodeName, $value, $item, $xml)
     {
         if ($value != '') {
             $node = $xml->createElement($nodeName, $value);
+
             return $item->appendChild($node);
         }
+
         return false;
     }
 
@@ -750,6 +769,7 @@ class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInt
      * Create url for product images
      *
      * @param  array $product
+     *
      * @return array $newProduct
      */
     protected function formatProductArray($product)
@@ -759,28 +779,33 @@ class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInt
             $newKey = explode('-', $key);
             $newProduct[$newKey[0]] = $product[$key];
             $attribute = $this->attributeRepository->findOneByIdentifier($newKey[0]);
-            if ($attribute !== NULL) {
-                if (in_array($attribute->getAttributeType(), [AttributeTypes::OPTION_MULTI_SELECT, AttributeTypes::OPTION_SIMPLE_SELECT])) {
+            if ($attribute !== null) {
+                if (in_array(
+                    $attribute->getAttributeType(),
+                    [AttributeTypes::OPTION_MULTI_SELECT, AttributeTypes::OPTION_SIMPLE_SELECT]
+                )) {
                     foreach ($attribute->getOptions() as $option) {
                         if ($option->getCode() == $value) {
-                            $newProduct[$newKey[0]] = $option->setLocale($this->getLocale())->getOptionValue()->getLabel();
+                            $newProduct[$newKey[0]] = $option->setLocale($this->getLocale())->getOptionValue(
+                            )->getLabel();
                             break;
                         }
                     }
                 } elseif ($attribute->getAttributeType() == AttributeTypes::PRICE_COLLECTION) {
-                    $newProduct[$newKey[0]] = $value . ' ' . $this->getCurrency();
+                    $newProduct[$newKey[0]] = $value.' '.$this->getCurrency();
                 } elseif (in_array($attribute->getAttributeType(), [AttributeTypes::TEXT, AttributeTypes::TEXTAREA])) {
                     $newProduct[$newKey[0]] = htmlentities(html_entity_decode($value));
                 } elseif ($attribute->getAttributeType() == AttributeTypes::IMAGE) {
                     $fileName = basename($value);
-                    $file     = $this->fileInfoRepository->findOneBy(['originalFilename' => $fileName]);
+                    $file = $this->fileInfoRepository->findOneBy(['originalFilename' => $fileName]);
                     if ($file !== null) {
-                        $newProduct[$newKey[0]] = $this->getPimMediaUrl() . 'file_storage/catalog/' . $file->getKey();
+                        $newProduct[$newKey[0]] = $this->getPimMediaUrl().'file_storage/catalog/'.$file->getKey();
                     }
                 }
             }
         }
         $newProduct[''] = '';
+
         return $newProduct;
     }
 
@@ -795,75 +820,75 @@ class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInt
             array_merge(
                 parent::getConfigurationFields(),
                 [
-                    'title' => [
+                    'title'                  => [
                         'options' => [
                             'label' => 'dnd_google_shopping_connector.export.title.label',
-                            'help'  => 'dnd_google_shopping_connector.export.title.help'
-                        ]
+                            'help'  => 'dnd_google_shopping_connector.export.title.help',
+                        ],
                     ],
-                    'description' => [
+                    'description'            => [
                         'options' => [
                             'label' => 'dnd_google_shopping_connector.export.description.label',
-                            'help'  => 'dnd_google_shopping_connector.export.description.help'
-                        ]
+                            'help'  => 'dnd_google_shopping_connector.export.description.help',
+                        ],
                     ],
-                    'websiteLink' => [
+                    'websiteLink'            => [
                         'options' => [
                             'label' => 'dnd_google_shopping_connector.export.websiteLink.label',
-                            'help'  => 'dnd_google_shopping_connector.export.websiteLink.help'
-                        ]
+                            'help'  => 'dnd_google_shopping_connector.export.websiteLink.help',
+                        ],
                     ],
-                    'googleId' => [
+                    'googleId'               => [
                         'type'    => 'choice',
                         'options' => [
                             'choices'  => $this->getAttributesChoices(),
                             'required' => true,
                             'select2'  => true,
                             'label'    => 'dnd_google_shopping_connector.export.googleId.label',
-                            'help'     => 'dnd_google_shopping_connector.export.googleId.help'
-                        ]
+                            'help'     => 'dnd_google_shopping_connector.export.googleId.help',
+                        ],
                     ],
-                    'googleTitle' => [
+                    'googleTitle'            => [
                         'type'    => 'choice',
                         'options' => [
                             'choices'  => $this->getAttributesChoices(),
                             'required' => true,
                             'select2'  => true,
                             'label'    => 'dnd_google_shopping_connector.export.googleTitle.label',
-                            'help'     => 'dnd_google_shopping_connector.export.googleTitle.help'
-                        ]
+                            'help'     => 'dnd_google_shopping_connector.export.googleTitle.help',
+                        ],
                     ],
-                    'googleDescription' => [
+                    'googleDescription'      => [
                         'type'    => 'choice',
                         'options' => [
                             'choices'  => $this->getAttributesChoices(),
                             'required' => true,
                             'select2'  => true,
                             'label'    => 'dnd_google_shopping_connector.export.googleDescription.label',
-                            'help'     => 'dnd_google_shopping_connector.export.googleDescription.help'
-                        ]
+                            'help'     => 'dnd_google_shopping_connector.export.googleDescription.help',
+                        ],
                     ],
-                    'googleLink' => [
+                    'googleLink'             => [
                         'type'    => 'choice',
                         'options' => [
                             'choices'  => $this->getAttributesChoices(),
                             'required' => true,
                             'select2'  => true,
                             'label'    => 'dnd_google_shopping_connector.export.googleLink.label',
-                            'help'     => 'dnd_google_shopping_connector.export.googleLink.help'
-                        ]
+                            'help'     => 'dnd_google_shopping_connector.export.googleLink.help',
+                        ],
                     ],
-                    'googleImagesLink' => [
+                    'googleImagesLink'       => [
                         'type'    => 'choice',
                         'options' => [
                             'choices'  => $this->getAttributesChoices(),
                             'required' => true,
                             'select2'  => true,
-                            'label' => 'dnd_google_shopping_connector.export.googleImagesLink.label',
-                            'help'  => 'dnd_google_shopping_connector.export.googleImagesLink.help'
-                        ]
+                            'label'    => 'dnd_google_shopping_connector.export.googleImagesLink.label',
+                            'help'     => 'dnd_google_shopping_connector.export.googleImagesLink.help',
+                        ],
                     ],
-                    'googleCondition' => [
+                    'googleCondition'        => [
                         'type'    => 'choice',
                         'options' => [
                             'choices'  => [
@@ -874,10 +899,10 @@ class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInt
                             'required' => true,
                             'select2'  => true,
                             'label'    => 'dnd_google_shopping_connector.export.googleCondition.label',
-                            'help'     => 'dnd_google_shopping_connector.export.googleCondition.help'
-                        ]
+                            'help'     => 'dnd_google_shopping_connector.export.googleCondition.help',
+                        ],
                     ],
-                    'googleAvailability' => [
+                    'googleAvailability'     => [
                         'type'    => 'choice',
                         'options' => [
                             'choices'  => [
@@ -888,118 +913,118 @@ class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInt
                             'required' => true,
                             'select2'  => true,
                             'label'    => 'dnd_google_shopping_connector.export.googleAvailability.label',
-                            'help'     => 'dnd_google_shopping_connector.export.googleAvailability.help'
-                        ]
+                            'help'     => 'dnd_google_shopping_connector.export.googleAvailability.help',
+                        ],
                     ],
-                    'googlePrice' => [
+                    'googlePrice'            => [
                         'type'    => 'choice',
                         'options' => [
                             'choices'  => $this->getAttributesChoices(),
                             'required' => true,
                             'select2'  => true,
                             'label'    => 'dnd_google_shopping_connector.export.googlePrice.label',
-                            'help'     => 'dnd_google_shopping_connector.export.googlePrice.help'
-                        ]
+                            'help'     => 'dnd_google_shopping_connector.export.googlePrice.help',
+                        ],
                     ],
-                    'googleGtin' => [
+                    'googleGtin'             => [
                         'type'    => 'choice',
                         'options' => [
                             'choices'  => $this->getAttributesChoices(),
                             'required' => true,
                             'select2'  => true,
                             'label'    => 'dnd_google_shopping_connector.export.googleGtin.label',
-                            'help'     => 'dnd_google_shopping_connector.export.googleGtin.help'
-                        ]
+                            'help'     => 'dnd_google_shopping_connector.export.googleGtin.help',
+                        ],
                     ],
-                    'googleBrand' => [
+                    'googleBrand'            => [
                         'type'    => 'choice',
                         'options' => [
                             'choices'  => $this->getAttributesChoices(),
                             'required' => true,
                             'select2'  => true,
                             'label'    => 'dnd_google_shopping_connector.export.googleBrand.label',
-                            'help'     => 'dnd_google_shopping_connector.export.googleBrand.help'
-                        ]
+                            'help'     => 'dnd_google_shopping_connector.export.googleBrand.help',
+                        ],
                     ],
-                    'googleColor' => [
+                    'googleColor'            => [
                         'type'    => 'choice',
                         'options' => [
                             'choices'  => $this->getAttributesChoices(),
                             'required' => true,
                             'select2'  => true,
                             'label'    => 'dnd_google_shopping_connector.export.googleColor.label',
-                            'help'     => 'dnd_google_shopping_connector.export.googleColor.help'
-                        ]
+                            'help'     => 'dnd_google_shopping_connector.export.googleColor.help',
+                        ],
                     ],
-                    'googleGender' => [
+                    'googleGender'           => [
                         'type'    => 'choice',
                         'options' => [
                             'choices'  => $this->getAttributesChoices(),
                             'required' => true,
                             'select2'  => true,
                             'label'    => 'dnd_google_shopping_connector.export.googleGender.label',
-                            'help'     => 'dnd_google_shopping_connector.export.googleGender.help'
-                        ]
+                            'help'     => 'dnd_google_shopping_connector.export.googleGender.help',
+                        ],
                     ],
-                    'googleAgeGroup' => [
+                    'googleAgeGroup'         => [
                         'type'    => 'choice',
                         'options' => [
                             'choices'  => $this->getAttributesChoices(),
                             'required' => true,
                             'select2'  => true,
                             'label'    => 'dnd_google_shopping_connector.export.googleAgeGroup.label',
-                            'help'     => 'dnd_google_shopping_connector.export.googleAgeGroup.help'
-                        ]
+                            'help'     => 'dnd_google_shopping_connector.export.googleAgeGroup.help',
+                        ],
                     ],
-                    'googleMaterial' => [
+                    'googleMaterial'         => [
                         'type'    => 'choice',
                         'options' => [
                             'choices'  => $this->getAttributesChoices(),
                             'required' => true,
                             'select2'  => true,
                             'label'    => 'dnd_google_shopping_connector.export.googleMaterial.label',
-                            'help'     => 'dnd_google_shopping_connector.export.googleMaterial.help'
-                        ]
+                            'help'     => 'dnd_google_shopping_connector.export.googleMaterial.help',
+                        ],
                     ],
-                    'googlePattern' => [
+                    'googlePattern'          => [
                         'type'    => 'choice',
                         'options' => [
                             'choices'  => $this->getAttributesChoices(),
                             'required' => true,
                             'select2'  => true,
                             'label'    => 'dnd_google_shopping_connector.export.googlePattern.label',
-                            'help'     => 'dnd_google_shopping_connector.export.googlePattern.help'
-                        ]
+                            'help'     => 'dnd_google_shopping_connector.export.googlePattern.help',
+                        ],
                     ],
-                    'googleSize' => [
+                    'googleSize'             => [
                         'type'    => 'choice',
                         'options' => [
                             'choices'  => $this->getAttributesChoices(),
                             'required' => true,
                             'select2'  => true,
                             'label'    => 'dnd_google_shopping_connector.export.googleSize.label',
-                            'help'     => 'dnd_google_shopping_connector.export.googleSize.help'
-                        ]
+                            'help'     => 'dnd_google_shopping_connector.export.googleSize.help',
+                        ],
                     ],
-                    'googlePersonalizeOne' => [
+                    'googlePersonalizeOne'   => [
                         'type'    => 'choice',
                         'options' => [
                             'choices'  => $this->getAttributesChoices(),
                             'required' => true,
                             'select2'  => true,
                             'label'    => 'dnd_google_shopping_connector.export.googlePersonalizeOne.label',
-                            'help'     => 'dnd_google_shopping_connector.export.googlePersonalizeOne.help'
-                        ]
+                            'help'     => 'dnd_google_shopping_connector.export.googlePersonalizeOne.help',
+                        ],
                     ],
-                    'googlePersonalizeTwo' => [
+                    'googlePersonalizeTwo'   => [
                         'type'    => 'choice',
                         'options' => [
                             'choices'  => $this->getAttributesChoices(),
                             'required' => true,
                             'select2'  => true,
                             'label'    => 'dnd_google_shopping_connector.export.googlePersonalizeTwo.label',
-                            'help'     => 'dnd_google_shopping_connector.export.googlePersonalizeTwo.help'
-                        ]
+                            'help'     => 'dnd_google_shopping_connector.export.googlePersonalizeTwo.help',
+                        ],
                     ],
                     'googlePersonalizeThree' => [
                         'type'    => 'choice',
@@ -1008,54 +1033,54 @@ class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInt
                             'required' => true,
                             'select2'  => true,
                             'label'    => 'dnd_google_shopping_connector.export.googlePersonalizeThree.label',
-                            'help'     => 'dnd_google_shopping_connector.export.googlePersonalizeThree.help'
-                        ]
+                            'help'     => 'dnd_google_shopping_connector.export.googlePersonalizeThree.help',
+                        ],
                     ],
-                    'googlePersonalizeFour' => [
+                    'googlePersonalizeFour'  => [
                         'type'    => 'choice',
                         'options' => [
                             'choices'  => $this->getAttributesChoices(),
                             'required' => true,
                             'select2'  => true,
                             'label'    => 'dnd_google_shopping_connector.export.googlePersonalizeFour.label',
-                            'help'     => 'dnd_google_shopping_connector.export.googlePersonalizeFour.help'
-                        ]
+                            'help'     => 'dnd_google_shopping_connector.export.googlePersonalizeFour.help',
+                        ],
                     ],
-                    'googlePersonalizeFive' => [
+                    'googlePersonalizeFive'  => [
                         'type'    => 'choice',
                         'options' => [
                             'choices'  => $this->getAttributesChoices(),
                             'required' => true,
                             'select2'  => true,
                             'label'    => 'dnd_google_shopping_connector.export.googlePersonalizeFive.label',
-                            'help'     => 'dnd_google_shopping_connector.export.googlePersonalizeFive.help'
-                        ]
+                            'help'     => 'dnd_google_shopping_connector.export.googlePersonalizeFive.help',
+                        ],
                     ],
-                    'locale' => [
+                    'locale'                 => [
                         'type'    => 'choice',
                         'options' => [
                             'choices'  => $this->getLocaleCodes(),
                             'required' => true,
                             'select2'  => true,
                             'label'    => 'dnd_google_shopping_connector.export.locale.label',
-                            'help'     => 'dnd_google_shopping_connector.export.locale.help'
-                        ]
+                            'help'     => 'dnd_google_shopping_connector.export.locale.help',
+                        ],
                     ],
-                    'currency' => [
+                    'currency'               => [
                         'type'    => 'choice',
                         'options' => [
                             'choices'  => $this->getCurrencyCodes(),
                             'required' => true,
                             'select2'  => true,
                             'label'    => 'dnd_google_shopping_connector.export.currency.label',
-                            'help'     => 'dnd_google_shopping_connector.export.currency.help'
-                        ]
+                            'help'     => 'dnd_google_shopping_connector.export.currency.help',
+                        ],
                     ],
-                    'pimMediaUrl' => [
+                    'pimMediaUrl'            => [
                         'options' => [
-                            'label'    => 'dnd_google_shopping_connector.export.pimMediaUrl.label',
-                            'help'     => 'dnd_google_shopping_connector.export.pimMediaUrl.help'
-                        ]
+                            'label' => 'dnd_google_shopping_connector.export.pimMediaUrl.label',
+                            'help'  => 'dnd_google_shopping_connector.export.pimMediaUrl.help',
+                        ],
                     ],
                 ]
             );
@@ -1072,6 +1097,7 @@ class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInt
         foreach ($this->localeRepository->getActivatedLocales() as $locale) {
             $choices[$locale->getCode()] = $locale->getCode();
         }
+
         return $choices;
     }
 
@@ -1086,6 +1112,7 @@ class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInt
         foreach ($this->currencyRepository->getActivatedCurrencies() as $currency) {
             $choices[$currency->getCode()] = $currency->getCode();
         }
+
         return $choices;
     }
 
@@ -1101,18 +1128,8 @@ class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInt
         foreach ($this->attributeRepository->getAttributesAsArray() as $attribute) {
             $choices[$attribute['code']] = $attribute['code'];
         }
+
         return $choices;
-    }
-
-    /**
-     * @param $product
-     *
-     * @return mixed
-     */
-    protected function getGoogleCategory($product)
-    {
-        return $googleCategory = $product['product']['categories'];
-
     }
 
     /**
@@ -1129,4 +1146,5 @@ class XmlProductWriter extends AbstractFileWriter implements ArchivableWriterInt
 
         throw new InvalidItemException($error, $item);
     }
+
 }
