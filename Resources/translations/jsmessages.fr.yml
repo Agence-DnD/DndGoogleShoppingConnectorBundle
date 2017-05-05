@@ -1,0 +1,108 @@
+dnd_google_shopping_connector:
+  form:
+    job_instance:
+      tab:
+        google:
+          title: Configuration Google Shopping
+          channelTitle:
+            title: Titre
+            help:  Titre du canal Google shopping
+          description:
+            title: Description
+            help:  Description du canal Google shopping
+          websiteLink:
+            title: Lien du site
+            help:  Lien du site du canal Google shopping
+          currency:
+            title: Devise
+            help:  Devise du prix des produits
+          googleId:
+            title: Identifiant produit
+            help:  Attribut utilisé pour les identifiants produits
+          googleTitle:
+            title: Titre produit
+            help:  Attribut utilisé pour les titres produits
+          googleDescription:
+            title: Description produit
+            help:  Attribut utilisé pour les descriptions produits
+          googleLink:
+            title: Lien produit
+            help:  Attribut utilisé pour les url produits (url du produit sur votre site marchand)
+          googleImagesLink:
+            title: Lien des images produit
+            help:  Lien des images produits pour Google
+          googleCondition:
+            title: Etat
+            help:  Selectionner l'état des produits
+            options:
+              new: neuf
+              refurbished: reconditionné
+              used: occasion
+          googleAvailability:
+            title: Disponibilité
+            help:  Selectionner la disponibilité des produits
+            options:
+              in_stock: en stock
+              out_of_stock: non disponible
+              preorder: précommande
+          googlePrice:
+            title: Prix produit
+            help:  Attribut utilisé pour les prix produits
+          googleGtin:
+            title: Gtin produit
+            help:  Attribut utilisé pour les gtin produits (EAN, ISBN, ...)
+          googleBrand:
+            title: Marque produit
+            help:  Attribut utilisé pour la marque des produits
+          googleColor:
+            title: Couleur produit
+            help:  Attribut utilisé pour la couleur des produits
+          googleGender:
+            title: Genre produit
+            help:  Attribut utilisé pour le genre des produits
+            options:
+              unisex: unisexe
+              male: homme
+              female: femme
+          googleAgeGroup:
+            title: Tranche d'âge produit
+            help:  Attribut utilisé pour la tranche d'âge des produits
+            options:
+              newborn: nourrissons
+              infant: bébés
+              toddler: tout-petits
+              kids: enfants
+              adult: adultes
+          googleMaterial:
+            title: Matériel produit
+            help:  Attribut utilisé pour le matériel des produits
+          googlePattern:
+            title: Motif produit
+            help:  Attribut utilisé pour le motif ou imprimé des produits
+          googleSize:
+            title: Taille produit
+            help:  Attribut utilisé pour la taille des produits
+          googlePersonalizeOne:
+            title: Etiquette personnalisée 0
+            help:  Attribut utilisé pour l'étiquette personnalisée 0 des produits
+          googlePersonalizeTwo:
+            title: Etiquette personnalisée 1
+            help:  Attribut utilisé pour l'étiquette personnalisée 1 des produits
+          googlePersonalizeThree:
+            title: Etiquette personnalisée 2
+            help:  Attribut utilisé pour l'étiquette personnalisée 2 des produits
+          googlePersonalizeFour:
+            title: Etiquette personnalisée 3
+            help:  Attribut utilisé pour l'étiquette personnalisée 3 des produits
+          googlePersonalizeFive:
+            title: Etiquette personnalisée 4
+            help:  Attribut utilisé pour l'étiquette personnalisée 4 des produits
+          pimMediaUrl:
+            title: Url du PIM
+            help:  Renseigner l'url du PIM si vous utilisez des attributs de type image (exemple : http://www.pimdomaine.com/)
+        properties:
+          parent_categories:
+            title: Catégorie parent Google Shopping
+            help: Catégorie parent dans laquelle importer les catégories Google Shopping
+
+

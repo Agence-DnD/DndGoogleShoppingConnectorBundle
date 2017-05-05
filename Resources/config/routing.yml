@@ -1,0 +1,12 @@
+dnd_google_shopping_connector_parent_categories_list:
+    path: /parent-categories
+    defaults: { _controller: dnd_google_shopping_connector.rest.controller:listParentCategoriesAction}
+    methods: [GET]
+dnd_google_shopping_connector_attributes_list:
+    path: /attributes
+    defaults: { _controller: dnd_google_shopping_connector.rest.controller:listAttributesAction}
+    methods: [GET]
+dnd_google_shopping_connector_available_currencies_list:
+    path: /available-currencies
+    defaults: { _controller: dnd_google_shopping_connector.rest.controller:listAvailableCurrenciesAction}
+    methods: [GET]

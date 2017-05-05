@@ -1,0 +1,108 @@
+dnd_google_shopping_connector:
+  form:
+    job_instance:
+      tab:
+        google:
+          title: Google Shopping configuration
+          channelTitle:
+            title: Title
+            help:  Google Shopping channel title
+          description:
+            title: Description
+            help:  Google Shopping channel description
+          websiteLink:
+            title: Website link
+            help:  Google Shopping channel website link
+          currency:
+            title: Currency
+            help:  Currency used for product prices
+          googleId:
+            title: Product ID
+            help:  Attribute used for product identifier
+          googleTitle:
+            title: Product title
+            help:  Attribute used for product title
+          googleDescription:
+            title: Product Description
+            help:  Attribute used for product description
+          googleLink:
+            title: Product link
+            help:  Attribute used for product Url
+          googleImagesLink:
+            title: Product image link
+            help:  Image link for product
+          googleCondition:
+            title: Product condition
+            help:  Select product condition
+            options:
+              new: new
+              refurbished: refurbished
+              used: used
+          googleAvailability:
+            title: Availability
+            help:  Select product availability
+            options:
+              in_stock: in stock
+              out_of_stock: out of stock
+              preorder: preorder
+          googlePrice:
+            title: Product price
+            help:  Attribute used for product price
+          googleGtin:
+            title: Product GTIN
+            help:  Attribute used for product GTIN (EAN, ISBN, ...)
+          googleBrand:
+            title: Product Brand
+            help:  Attribute used for product brand
+          googleColor:
+            title: Product color
+            help:  Attribute used for product color
+          googleGender:
+            title: Product genre
+            help:  Attribute used for product gender
+            options:
+              unisex: unisex
+              male: male
+              female: female
+          googleAgeGroup:
+            title: Product age group
+            help:  Attribute used for product age group
+            options:
+              newborn: newborn
+              infant: infant
+              toddler: toddler
+              kids: kids
+              adult: adult
+          googleMaterial:
+            title: Product material
+            help:  Attribute used for product material
+          googlePattern:
+            title: Product pattern
+            help:  Attribute used for product pattern
+          googleSize:
+            title: Product size
+            help:  Attribute used for product size
+          googlePersonalizeOne:
+            title: Product custom label 0
+            help:  Attribute use for custom label 0
+          googlePersonalizeTwo:
+            title: Product custom label 1
+            help:  Attribute use for custom label 1
+          googlePersonalizeThree:
+            title: Product custom label 2
+            help:  Attribute use for custom label 2
+          googlePersonalizeFour:
+            title: Product custom label 3
+            help:  Attribute use for custom label 3
+          googlePersonalizeFive:
+            title: Product custom label 4
+            help:  Attribute use for custom label 4
+          pimMediaUrl:
+            title: PIM URL
+            help:  Fill the url of your PIM if you use image attributes (example : http://www.pimdomain.com/)
+        properties:
+          parent_categories:
+            title: Google Shopping parent category
+            help: Parent category to import Google Shopping Categories
+
+

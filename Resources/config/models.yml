@@ -1,2 +1,0 @@
-parameters:
-    google_shopping_connector.model.google_category.interface: Dnd\Bundle\GoogleShoppingConnectorBundle\Model\GoogleCategoryTranslationInterface
