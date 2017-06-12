@@ -1,8 +1,0 @@
-services:
-    google_shopping_connector_custom.form.type.google_category:
-        class: Dnd\Bundle\GoogleShoppingConnectorBundle\Form\Type\GoogleCategoryType
-        arguments:
-            - %google_shopping_connector.entity.google_category.class%
-            - %google_shopping_connector.entity.google_category_translation.class%
-        tags:
-            - { name: form.type, alias: google_shopping_connector_enrich_google_category }

@@ -1,0 +1,23 @@
+config:
+    paths:
+        parent-categories-list: dndgoogleshoppingconnector/js/parent-categories-list
+        attributes-list: dndgoogleshoppingconnector/js/attributes-list
+        available-currencies-list: dndgoogleshoppingconnector/js/available-currencies-list
+    config:
+        pim/fetcher-registry:
+            fetchers:
+                parent-categories-list:
+                    module: pim/base-fetcher
+                    options:
+                        urls:
+                            list: dnd_google_shopping_connector_parent_categories_list
+                attributes-list:
+                    module: pim/base-fetcher
+                    options:
+                        urls:
+                            list: dnd_google_shopping_connector_attributes_list
+                available-currencies-list:
+                    module: pim/base-fetcher
+                    options:
+                        urls:
+                            list: dnd_google_shopping_connector_available_currencies_list

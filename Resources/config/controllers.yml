@@ -1,0 +1,11 @@
+parameters:
+    dnd_google_shopping_connector.rest.controller.class: Dnd\Bundle\GoogleShoppingConnectorBundle\Controller\RestController
+
+services:
+    dnd_google_shopping_connector.rest.controller:
+        class: '%dnd_google_shopping_connector.rest.controller.class%'
+        scope: request
+        arguments:
+            - '@pim_catalog.repository.category'
+            - '@pim_catalog.repository.attribute'
+            - '@pim_catalog.repository.currency'
