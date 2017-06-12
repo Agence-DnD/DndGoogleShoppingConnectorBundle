@@ -1,3 +1,12 @@
+batch_jobs:
+  google_shopping_category_import_job:
+    label: Import Google Shopping categories in CSV
+  google_shopping_export_job:
+    label: Export products for Google Shopping in XML
+
+google_shopping_category_import_job: Import Google Shopping categories
+google_shopping_export_job: Products export fo Google Shopping
+
 dnd_google_shopping_connector:
   jobs:
     xml_product_export:

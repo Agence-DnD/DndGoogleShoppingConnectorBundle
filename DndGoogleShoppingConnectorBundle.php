@@ -2,52 +2,34 @@
 
 namespace Dnd\Bundle\GoogleShoppingConnectorBundle;
 
+
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Pim\Bundle\EnrichBundle\DependencyInjection\Reference\ReferenceFactory;
+use Pim\Bundle\ImportExportBundle\DependencyInjection\Compiler\RegisterJobNameVisibilityCheckerPass;
+use Pim\Bundle\ImportExportBundle\DependencyInjection\Compiler\RegisterJobParametersFormsOptionsPass;
+use Pim\Bundle\ImportExportBundle\DependencyInjection\Compiler\RegisterJobTemplatePass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Akeneo\Bundle\StorageUtilsBundle\AkeneoStorageUtilsBundle;
-use Akeneo\Bundle\StorageUtilsBundle\DependencyInjection\Compiler\DoctrineOrmMappingsPass;
-use Dnd\Bundle\GoogleShoppingConnectorBundle\DependencyInjection\Compiler\ResolveDoctrineTargetModelPass;
 
 /**
- * Google Shopping connector bundle
+ * Class DndGoogleShoppingConnectorBundle
  *
- * @author    Florian Fauvel <florian.fauvel@dnd.fr>
- * @copyright 2016 Agence Dn'D (http://www.dnd.fr)
- * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @author                 Agence Dn'D <contact@dnd.fr>
+ * @copyright              Copyright (c) 2017 Agence Dn'D
+ * @license                http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @link                   http://www.dnd.fr/
  */
 class DndGoogleShoppingConnectorBundle extends Bundle
 {
-
     /**
      * {@inheritdoc}
      */
     public function build(ContainerBuilder $container)
     {
         $container
-            ->addCompilerPass(new ResolveDoctrineTargetModelPass());
-
-        $productMappings = [
-            realpath(__DIR__ . '/Resources/config/model/doctrine') => 'Dnd\Bundle\GoogleShoppingConnectorBundle\Model'
-        ];
-
-        $container->addCompilerPass(
-            DoctrineOrmMappingsPass::createYamlMappingDriver(
-                $productMappings,
-                ['doctrine.orm.entity_manager'],
-                'akeneo_storage_utils.storage_driver.doctrine/orm'
-            )
-        );
-
-        if (class_exists(AkeneoStorageUtilsBundle::DOCTRINE_MONGODB)) {
-            $mongoDBClass = AkeneoStorageUtilsBundle::DOCTRINE_MONGODB;
-            $container->addCompilerPass(
-                $mongoDBClass::createYamlMappingDriver(
-                    $productMappings,
-                    ['doctrine.odm.mongodb.document_manager'],
-                    'akeneo_storage_utils.storage_driver.doctrine/mongodb-odm'
-                )
-            );
-        }
+            ->addCompilerPass(new RegisterJobTemplatePass())
+            ->addCompilerPass(new RegisterJobParametersFormsOptionsPass(new ReferenceFactory()))
+            ->addCompilerPass(new RegisterJobNameVisibilityCheckerPass(
+                ['pim_connector.job_name.csv_product_export', 'pim_connector.job_name.xlsx_product_export', 'dnd_google_shopping_connector.job_name.xml_google_shopping_product_export']
+            ));
     }
-
 }

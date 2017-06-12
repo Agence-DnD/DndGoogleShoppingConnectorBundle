@@ -1,0 +1,21 @@
+services:
+    dnd_google_shopping_connector.step.xlsx_google_category.import:
+        class: '%pim_connector.step.item_step.class%'
+        arguments:
+            - 'import'
+            - '@event_dispatcher'
+            - '@akeneo_batch.job_repository'
+            - '@pim_connector.reader.file.xlsx.google_category'
+            - '@pim_connector.processor.denormalization.category'
+            - '@pim_connector.writer.database.category'
+            - 10
+
+    dnd_google_shopping_connector.step.xml_product.export:
+        class: '%pim_connector.step.item_step.class%'
+        arguments:
+            - 'export_product_step'
+            - '@event_dispatcher'
+            - '@akeneo_batch.job_repository'
+            - '@pim_connector.reader.database.product'
+            - '@pim_connector.processor.normalization.product'
+            - '@dnd_google_shopping_connector.writer.file.xml_product'

@@ -1,3 +1,19 @@
+batch_jobs:
+  google_shopping_category_import_job:
+    label: Import des Catégories Google Shopping en CSV
+  google_shopping_export_job:
+    label: Export produits en XML pour Google Shopping
+
+google_shopping_category_import_job: Import des Catégories Google Shopping
+google_shopping_export_job: Export des produits pour Google Shopping
+
+google_shopping:
+  import:
+    csv:
+      locale:
+        label: Langue
+        help: Langue des catégories
+
 dnd_google_shopping_connector:
   jobs:
     xml_product_export:
@@ -105,7 +121,8 @@ dnd_google_shopping_connector:
       help:  Renseigner l'url du PIM si vous utilisez des attributs de type image (exemple : http://www.pimdomaine.com/)
 pim_custom_entity:
     reference_data:
-      google_category.menu_entry: Gérer les catégories Google
+      google_category:
+        menu_entry: Gérer les catégories Google
 googleCategory:
     title: Liste des catégories Google
     overview: Liste des catégories Google

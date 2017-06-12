@@ -1,6 +1,7 @@
 parameters:
-    dnd_google_shopping_connector.reader.google_csv.class: Dnd\Bundle\GoogleShoppingConnectorBundle\Reader\GoogleCsvReader
+    pim_connector.reader.file.xlsx.google_category.class: Dnd\Bundle\GoogleShoppingConnectorBundle\Reader\File\Xlsx\GoogleCategoryReader
 
 services:
-    dnd_google_shopping_connector.reader.google_csv:
-      class: %dnd_google_shopping_connector.reader.google_csv.class%
+    pim_connector.reader.file.xlsx.google_category:
+        class: %pim_connector.reader.file.xlsx.google_category.class%
+        parent: pim_connector.reader.file.xlsx_category
