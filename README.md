@@ -45,7 +45,7 @@ Enable the bundle in ```app/AppKernel.php``` file, in the ```registerBundles``` 
 $bundles[] = new Dnd\Bundle\GoogleShoppingConnectorBundle\DndGoogleShoppingConnectorBundle();
 ```
 
-Add the route in ```app/routing.yml```file, under the _pim_reference_data_ node:
+Add the route in ```app/config/routing.yml```file, under the _pim_reference_data_ node:
 ```yml
 dnd_google_shopping_connector:
     prefix: /google-shopping-connector
