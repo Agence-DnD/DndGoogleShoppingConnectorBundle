@@ -1,11 +1,14 @@
 parameters:
-    dnd_google_shopping_connector.rest.controller.class: Dnd\Bundle\GoogleShoppingConnectorBundle\Controller\RestController
-
+    dnd_google_shopping_connector.rest.category.controller.class: Dnd\Bundle\GoogleShoppingConnectorBundle\Controller\Rest\CategoryController
+    dnd_google_shopping_connector.rest.attribute.controller.class: Dnd\Bundle\GoogleShoppingConnectorBundle\Controller\Rest\AttributeController
+    dnd_google_shopping_connector.rest.currency.controller.class: Dnd\Bundle\GoogleShoppingConnectorBundle\Controller\Rest\CurrencyController
 services:
-    dnd_google_shopping_connector.rest.controller:
-        class: '%dnd_google_shopping_connector.rest.controller.class%'
-        scope: request
-        arguments:
-            - '@pim_catalog.repository.category'
-            - '@pim_catalog.repository.attribute'
-            - '@pim_catalog.repository.currency'
+    dnd_google_shopping_connector.rest.category.controller:
+        class: '%dnd_google_shopping_connector.rest.category.controller.class%'
+        parent: pim_enrich.controller.rest.category
+    dnd_google_shopping_connector.rest.attribute.controller:
+        class: '%dnd_google_shopping_connector.rest.attribute.controller.class%'
+        parent: pim_enrich.controller.rest.attribute
+    dnd_google_shopping_connector.rest.currency.controller:
+        class: '%dnd_google_shopping_connector.rest.currency.controller.class%'
+        parent: pim_enrich.controller.rest.currency

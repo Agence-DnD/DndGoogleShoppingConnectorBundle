@@ -1,9 +1,9 @@
 parameters:
-    dnd_google_shopping_connector.writer.file.xml_product.class: Dnd\Bundle\GoogleShoppingConnectorBundle\Writer\File\Xml\XmlProductWriter
+    dnd_google_shopping_connector.writer.file.xml.class: Dnd\Bundle\GoogleShoppingConnectorBundle\Connector\Writer\File\Xml\Writer
 
 services:
     dnd_google_shopping_connector.writer.file.xml_product:
-        class: %dnd_google_shopping_connector.writer.file.xml_product.class%
+        class: '%dnd_google_shopping_connector.writer.file.xml.class%'
         arguments:
             - '@akeneo_buffer.factory.array_buffer'
             - '@pim_catalog.repository.attribute'

@@ -1,21 +1,43 @@
 extensions:
-    xml-google-shopping-product-export-edit:
+    google-shopping-xml-product-export-edit:
         module: pim/form/common/edit-form
 
-    xml-google-shopping-product-export-edit-cache-invalidator:
+    google-shopping-xml-product-export-edit-main-image:
+        module: pim/form/common/main-image
+        parent: google-shopping-xml-product-export-edit
+        targetZone: main-image
+        config:
+            path: bundles/pimui/images/illustration-export-csv.svg
+
+    google-shopping-xml-product-export-edit-user-navigation:
+        module: pim/menu/user-navigation
+        parent: google-shopping-xml-product-export-edit
+        targetZone: user-menu
+        config:
+            userAccount: pim_menu.user.user_account
+            logout: pim_menu.user.logout
+
+    google-shopping-xml-product-export-edit-breadcrumbs:
+        module: pim/common/breadcrumbs
+        parent: google-shopping-xml-product-export-edit
+        targetZone: breadcrumbs
+        config:
+            tab: pim-menu-exports
+
+    google-shopping-xml-product-export-edit-cache-invalidator:
         module: pim/cache-invalidator
-        parent: xml-google-shopping-product-export-edit
+        parent: google-shopping-xml-product-export-edit
         position: 1000
 
-    xml-google-shopping-product-export-edit-tabs:
+    google-shopping-xml-product-export-edit-tabs:
         module: pim/form/common/form-tabs
-        parent: xml-google-shopping-product-export-edit
+        parent: google-shopping-xml-product-export-edit
         targetZone: content
         position: 100
 
-    xml-google-shopping-product-export-edit-properties:
+    google-shopping-xml-product-export-edit-properties:
         module: pim/job/common/edit/properties
-        parent: xml-google-shopping-product-export-edit-tabs
+        parent: google-shopping-xml-product-export-edit-tabs
         aclResourceId: pim_importexport_export_profile_property_edit
         targetZone: container
         position: 100
@@ -23,40 +45,49 @@ extensions:
             tabTitle: pim_enrich.form.job_instance.tab.properties.title
             tabCode: pim-job-instance-properties
 
-    xml-google-shopping-product-export-edit-google:
+    google-shopping-xml-product-export-edit-global:
         module: pim/job/common/edit/properties
-        parent: xml-google-shopping-product-export-edit-tabs
+        parent: google-shopping-xml-product-export-edit-tabs
         aclResourceId: pim_importexport_export_profile_property_edit
         targetZone: container
-        position: 110
+        position: 120
         config:
-            tabTitle: dnd_google_shopping_connector.form.job_instance.tab.google.title
-            tabCode: pim-job-instance-google
+            tabTitle: pim_enrich.export.product.global_settings.title
+            tabCode: pim-job-instance-global
 
-    xml-google-shopping-product-export-edit-content:
+    google-shopping-xml-product-export-edit-content:
         module: pim/job/product/edit/content
-        parent: xml-google-shopping-product-export-edit-tabs
+        parent: google-shopping-xml-product-export-edit-tabs
         aclResourceId: pim_importexport_export_profile_content_edit
         targetZone: container
-        position: 120
+        position: 130
         config:
             tabTitle: pim_enrich.form.job_instance.tab.content.title
             tabCode: pim-job-instance-content
 
-    xml-google-shopping-product-export-edit-history:
+    google-shopping-xml-product-export-edit-google-mapping:
+        module: pim/job/common/edit/properties
+        parent: google-shopping-xml-product-export-edit-tabs
+        targetZone: container
+        position: 140
+        config:
+            tabTitle: pim_enrich.form.job_instance.tab.google-mapping.title
+            tabCode: pim-job-instance-google-mapping
+
+    google-shopping-xml-product-export-edit-history:
         module: pim/common/tab/history
-        parent: xml-google-shopping-product-export-edit-tabs
+        parent: google-shopping-xml-product-export-edit-tabs
         targetZone: container
         aclResourceId: pim_importexport_export_profile_history
-        position: 130
+        position: 150
         config:
             class: Akeneo\Component\Batch\Model\JobInstance
             title: pim_enrich.form.job_instance.tab.history.title
             tabCode: pim-job-instance-history
 
-    xml-google-shopping-product-export-edit-properties-code:
+    google-shopping-xml-product-export-edit-properties-code:
         module: pim/job/common/edit/field/text
-        parent: xml-google-shopping-product-export-edit-properties
+        parent: google-shopping-xml-product-export-edit-properties
         position: 100
         targetZone: properties
         config:
@@ -64,9 +95,9 @@ extensions:
             label: pim_enrich.form.job_instance.tab.properties.code.title
             readOnly: true
 
-    xml-google-shopping-product-export-edit-properties-label:
+    google-shopping-xml-product-export-edit-properties-label:
         module: pim/job/common/edit/field/text
-        parent: xml-google-shopping-product-export-edit-properties
+        parent: google-shopping-xml-product-export-edit-properties
         position: 110
         targetZone: properties
         config:
@@ -74,479 +105,166 @@ extensions:
             label: pim_enrich.form.job_instance.tab.properties.label.title
             readOnly: false
 
-    xml-google-shopping-product-export-edit-properties-file-path:
+    google-shopping-xml-product-export-edit-properties-file-path:
         module: pim/job/common/edit/field/text
-        parent: xml-google-shopping-product-export-edit-properties
+        parent: google-shopping-xml-product-export-edit-global
         position: 120
-        targetZone: global-settings
+        targetZone: properties
         config:
             fieldCode: configuration.filePath
             readOnly: false
             label: pim_enrich.form.job_instance.tab.properties.file_path.title
             tooltip: pim_enrich.form.job_instance.tab.properties.file_path.help
 
-    xml-google-shopping-product-export-edit-properties-decimal-separator:
+    google-shopping-xml-product-export-edit-properties-decimal-separator:
         module: pim/job/common/edit/field/decimal-separator
-        parent: xml-google-shopping-product-export-edit-properties
+        parent: google-shopping-xml-product-export-edit-global
         position: 130
-        targetZone: global-settings
+        targetZone: properties
         config:
             fieldCode: configuration.decimalSeparator
             readOnly: false
             label: pim_enrich.form.job_instance.tab.properties.decimal_separator.title
             tooltip: pim_enrich.form.job_instance.tab.properties.decimal_separator.help
 
-    xml-google-shopping-product-export-edit-properties-date-format:
+    google-shopping-xml-product-export-edit-properties-date-format:
         module: pim/job/product/edit/field/date-format
-        parent: xml-google-shopping-product-export-edit-properties
+        parent: google-shopping-xml-product-export-edit-global
         position: 140
-        targetZone: global-settings
+        targetZone: properties
         config:
             fieldCode: configuration.dateFormat
             readOnly: false
             label: pim_enrich.form.job_instance.tab.properties.date_format.title
             tooltip: pim_enrich.form.job_instance.tab.properties.date_format.help
 
-    xml-google-shopping-product-export-edit-properties-delimiter:
+    google-shopping-xml-product-export-edit-properties-delimiter:
         module: pim/job/common/edit/field/text
-        parent: xml-google-shopping-product-export-edit-properties
+        parent: google-shopping-xml-product-export-edit-global
         position: 150
-        targetZone: global-settings
+        targetZone: properties
         config:
             fieldCode: configuration.delimiter
             readOnly: false
             label: pim_enrich.form.job_instance.tab.properties.delimiter.title
             tooltip: pim_enrich.form.job_instance.tab.properties.delimiter.help
 
-    xml-google-shopping-product-export-edit-properties-enclosure:
+    google-shopping-xml-product-export-edit-properties-enclosure:
         module: pim/job/common/edit/field/text
-        parent: xml-google-shopping-product-export-edit-properties
+        parent: google-shopping-xml-product-export-edit-global
         position: 160
-        targetZone: global-settings
+        targetZone: properties
         config:
             fieldCode: configuration.enclosure
             readOnly: false
             label: pim_enrich.form.job_instance.tab.properties.enclosure.title
             tooltip: pim_enrich.form.job_instance.tab.properties.enclosure.help
 
-    xml-google-shopping-product-export-edit-properties-with-header:
+    google-shopping-xml-product-export-edit-properties-with-header:
         module: pim/job/common/edit/field/switch
-        parent: xml-google-shopping-product-export-edit-properties
+        parent: google-shopping-xml-product-export-edit-global
         position: 170
-        targetZone: global-settings
+        targetZone: properties
         config:
             fieldCode: configuration.withHeader
             readOnly: false
             label: pim_enrich.form.job_instance.tab.properties.with_header.title
             tooltip: pim_enrich.form.job_instance.tab.properties.with_header.help
 
-    xml-google-shopping-product-export-edit-properties-with-media:
+    google-shopping-xml-product-export-edit-properties-with-media:
         module: pim/job/common/edit/field/switch
-        parent: xml-google-shopping-product-export-edit-properties
+        parent: google-shopping-xml-product-export-edit-global
         position: 180
-        targetZone: global-settings
+        targetZone: properties
         config:
             fieldCode: configuration.with_media
             readOnly: false
             label: pim_enrich.form.job_instance.tab.properties.with_media.title
             tooltip: pim_enrich.form.job_instance.tab.properties.with_media.help
 
-# Google Shopping Fields Start -------------------------------------------------------------------------------------
-    xml-google-shopping-product-export-edit-properties-channelTitle:
-            module: pim/job/common/edit/field/text
-            parent: xml-google-shopping-product-export-edit-google
-            position: 100
-            targetZone: properties
-            config:
-                fieldCode: configuration.channelTitle
-                readOnly: false
-                label: dnd_google_shopping_connector.form.job_instance.tab.google.channelTitle.title
-                tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.channelTitle.help
-
-    xml-google-shopping-product-export-edit-properties-description:
-        module: pim/job/common/edit/field/text
-        parent: xml-google-shopping-product-export-edit-google
-        position: 110
-        targetZone: properties
-        config:
-            fieldCode: configuration.description
-            readOnly: false
-            label: dnd_google_shopping_connector.form.job_instance.tab.google.description.title
-            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.description.help
-
-    xml-google-shopping-product-export-edit-properties-websiteLink:
-        module: pim/job/common/edit/field/text
-        parent: xml-google-shopping-product-export-edit-google
-        position: 120
-        targetZone: properties
-        config:
-            fieldCode: configuration.websiteLink
-            readOnly: false
-            label: dnd_google_shopping_connector.form.job_instance.tab.google.websiteLink.title
-            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.websiteLink.help
-
-    xml-google-shopping-product-export-edit-properties-pimMediaUrl:
-        module: pim/job/common/edit/field/text
-        parent: xml-google-shopping-product-export-edit-google
-        position: 130
-        targetZone: properties
-        config:
-            fieldCode: configuration.pimMediaUrl
-            readOnly: false
-            label: dnd_google_shopping_connector.form.job_instance.tab.google.pimMediaUrl.title
-            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.pimMediaUrl.help
-
-    xml-google-shopping-product-export-edit-properties-currency:
-     module: available-currencies-list
-     parent: xml-google-shopping-product-export-edit-google
-     position: 140
-     targetZone: properties
-     config:
-         fieldCode: configuration.currency
-         readOnly: false
-         label: dnd_google_shopping_connector.form.job_instance.tab.google.currency.title
-         tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.currency.help
-
-    xml-google-shopping-product-export-edit-properties-googleId:
-        module: attributes-list
-        parent: xml-google-shopping-product-export-edit-google
-        position: 150
-        targetZone: global-settings
-        config:
-            fieldCode: configuration.googleId
-            readOnly: false
-            label: dnd_google_shopping_connector.form.job_instance.tab.google.googleId.title
-            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googleId.help
-
-    xml-google-shopping-product-export-edit-properties-googleTitle:
-        module: attributes-list
-        parent: xml-google-shopping-product-export-edit-google
-        position: 160
-        targetZone: global-settings
-        config:
-            fieldCode: configuration.googleTitle
-            readOnly: false
-            label: dnd_google_shopping_connector.form.job_instance.tab.google.googleTitle.title
-            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googleTitle.help
-
-    xml-google-shopping-product-export-edit-properties-googleDescription:
-        module: attributes-list
-        parent: xml-google-shopping-product-export-edit-google
-        position: 170
-        targetZone: global-settings
-        config:
-            fieldCode: configuration.googleDescription
-            readOnly: false
-            label: dnd_google_shopping_connector.form.job_instance.tab.google.googleDescription.title
-            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googleDescription.help
-
-    xml-google-shopping-product-export-edit-properties-googleLink:
-        module: attributes-list
-        parent: xml-google-shopping-product-export-edit-google
-        position: 180
-        targetZone: global-settings
-        config:
-            fieldCode: configuration.googleLink
-            readOnly: false
-            label: dnd_google_shopping_connector.form.job_instance.tab.google.googleLink.title
-            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googleLink.help
-
-    xml-google-shopping-product-export-edit-properties-googleImagesLink:
-        module: attributes-list
-        parent: xml-google-shopping-product-export-edit-google
-        position: 190
-        targetZone: global-settings
-        config:
-            fieldCode: configuration.googleImagesLink
-            readOnly: false
-            label: dnd_google_shopping_connector.form.job_instance.tab.google.googleImagesLink.title
-            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googleImagesLink.help
-
-    xml-google-shopping-product-export-edit-properties-googlePrice:
-        module: attributes-list
-        parent: xml-google-shopping-product-export-edit-google
-        position: 200
-        targetZone: global-settings
-        config:
-            fieldCode: configuration.googlePrice
-            readOnly: false
-            label: dnd_google_shopping_connector.form.job_instance.tab.google.googlePrice.title
-            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googlePrice.help
-
-    xml-google-shopping-product-export-edit-properties-googleGtin:
-        module: attributes-list
-        parent: xml-google-shopping-product-export-edit-google
-        position: 210
-        targetZone: global-settings
-        config:
-            fieldCode: configuration.googleGtin
-            readOnly: false
-            label: dnd_google_shopping_connector.form.job_instance.tab.google.googleGtin.title
-            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googleGtin.help
-
-    xml-google-shopping-product-export-edit-properties-googleBrand:
-        module: attributes-list
-        parent: xml-google-shopping-product-export-edit-google
-        position: 220
-        targetZone: global-settings
-        config:
-            fieldCode: configuration.googleBrand
-            readOnly: false
-            label: dnd_google_shopping_connector.form.job_instance.tab.google.googleBrand.title
-            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googleBrand.help
-
-    xml-google-shopping-product-export-edit-properties-googleColor:
-        module: attributes-list
-        parent: xml-google-shopping-product-export-edit-google
-        position: 230
-        targetZone: global-settings
-        config:
-            fieldCode: configuration.googleColor
-            readOnly: false
-            label: dnd_google_shopping_connector.form.job_instance.tab.google.googleColor.title
-            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googleColor.help
-
-    xml-google-shopping-product-export-edit-properties-googleGender:
-        module: pim/job/common/edit/field/select
-        parent: xml-google-shopping-product-export-edit-google
-        position: 240
-        targetZone: global-settings
-        config:
-            fieldCode: configuration.googleGender
-            readOnly: false
-            label: dnd_google_shopping_connector.form.job_instance.tab.google.googleGender.title
-            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googleGender.help
-            options:
-                default:
-                unisex: dnd_google_shopping_connector.form.job_instance.tab.google.googleGender.options.unisex
-                male: dnd_google_shopping_connector.form.job_instance.tab.google.googleGender.options.male
-                female: dnd_google_shopping_connector.form.job_instance.tab.google.googleGender.options.female
-
-    xml-google-shopping-product-export-edit-properties-googleAgeGroup:
-        module: pim/job/common/edit/field/select
-        parent: xml-google-shopping-product-export-edit-google
-        position: 250
-        targetZone: global-settings
-        config:
-            fieldCode: configuration.googleAgeGroup
-            readOnly: false
-            label: dnd_google_shopping_connector.form.job_instance.tab.google.googleAgeGroup.title
-            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googleAgeGroup.help
-            options:
-                default:
-                newborn: dnd_google_shopping_connector.form.job_instance.tab.google.googleAgeGroup.options.newborn
-                infant: dnd_google_shopping_connector.form.job_instance.tab.google.googleAgeGroup.options.infant
-                toddler: dnd_google_shopping_connector.form.job_instance.tab.google.googleAgeGroup.options.toddler
-                kids: dnd_google_shopping_connector.form.job_instance.tab.google.googleAgeGroup.options.kids
-                adult: dnd_google_shopping_connector.form.job_instance.tab.google.googleAgeGroup.options.adult
-
-    xml-google-shopping-product-export-edit-properties-googleMaterial:
-        module: attributes-list
-        parent: xml-google-shopping-product-export-edit-google
-        position: 260
-        targetZone: global-settings
-        config:
-            fieldCode: configuration.googleMaterial
-            readOnly: false
-            label: dnd_google_shopping_connector.form.job_instance.tab.google.googleMaterial.title
-            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googleMaterial.help
-
-    xml-google-shopping-product-export-edit-properties-googleSize:
-        module: attributes-list
-        parent: xml-google-shopping-product-export-edit-google
-        position: 270
-        targetZone: global-settings
-        config:
-            fieldCode: configuration.googleSize
-            readOnly: false
-            label: dnd_google_shopping_connector.form.job_instance.tab.google.googleSize.title
-            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googleSize.help
-
-    xml-google-shopping-product-export-edit-properties-googlePattern:
-        module: attributes-list
-        parent: xml-google-shopping-product-export-edit-google
-        position: 280
-        targetZone: global-settings
-        config:
-            fieldCode: configuration.googlePattern
-            readOnly: false
-            label: dnd_google_shopping_connector.form.job_instance.tab.google.googlePattern.title
-            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googlePattern.help
-
-    xml-google-shopping-product-export-edit-properties-PersonalizeOne:
-        module: attributes-list
-        parent: xml-google-shopping-product-export-edit-google
-        position: 290
-        targetZone: global-settings
-        config:
-            fieldCode: configuration.googlePersonalizeOne
-            readOnly: false
-            label: dnd_google_shopping_connector.form.job_instance.tab.google.googlePersonalizeOne.title
-            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googlePersonalizeOne.help
-
-    xml-google-shopping-product-export-edit-properties-PersonalizeTwo:
-        module: attributes-list
-        parent: xml-google-shopping-product-export-edit-google
-        position: 300
-        targetZone: global-settings
-        config:
-            fieldCode: configuration.googlePersonalizeTwo
-            readOnly: false
-            label: dnd_google_shopping_connector.form.job_instance.tab.google.googlePersonalizeTwo.title
-            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googlePersonalizeTwo.help
-
-    xml-google-shopping-product-export-edit-properties-PersonalizeThree:
-        module: attributes-list
-        parent: xml-google-shopping-product-export-edit-google
-        position: 310
-        targetZone: global-settings
-        config:
-            fieldCode: configuration.googlePersonalizeThree
-            readOnly: false
-            label: dnd_google_shopping_connector.form.job_instance.tab.google.googlePersonalizeThree.title
-            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googlePersonalizeThree.help
-
-    xml-google-shopping-product-export-edit-properties-PersonalizeFour:
-        module: attributes-list
-        parent: xml-google-shopping-product-export-edit-google
-        position: 320
-        targetZone: global-settings
-        config:
-            fieldCode: configuration.googlePersonalizeFour
-            readOnly: false
-            label: dnd_google_shopping_connector.form.job_instance.tab.google.googlePersonalizeFour.title
-            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googlePersonalizeFour.help
-
-    xml-google-shopping-product-export-edit-properties-PersonalizeFive:
-        module: attributes-list
-        parent: xml-google-shopping-product-export-edit-google
-        position: 330
-        targetZone: global-settings
-        config:
-            fieldCode: configuration.googlePersonalizeFive
-            readOnly: false
-            label: dnd_google_shopping_connector.form.job_instance.tab.google.googlePersonalizeFive.title
-            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googlePersonalizeFive.help
-
-    xml-google-shopping-product-export-edit-properties-googleCondition:
-        module: pim/job/common/edit/field/select
-        parent: xml-google-shopping-product-export-edit-google
-        position: 340
-        targetZone: global-settings
-        config:
-            fieldCode: configuration.googleCondition
-            readOnly: false
-            label: dnd_google_shopping_connector.form.job_instance.tab.google.googleCondition.title
-            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googleCondition.help
-            options:
-                default:
-                new: dnd_google_shopping_connector.form.job_instance.tab.google.googleCondition.options.new
-                refurbished: dnd_google_shopping_connector.form.job_instance.tab.google.googleCondition.options.refurbished
-                used: dnd_google_shopping_connector.form.job_instance.tab.google.googleCondition.options.used
-
-    xml-google-shopping-product-export-edit-properties-googleAvailability:
-        module: pim/job/common/edit/field/select
-        parent: xml-google-shopping-product-export-edit-google
-        position: 350
-        targetZone: global-settings
-        config:
-            fieldCode: configuration.googleAvailability
-            readOnly: false
-            label: dnd_google_shopping_connector.form.job_instance.tab.google.googleAvailability.title
-            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googleAvailability.help
-            options:
-                default:
-                in_stock: dnd_google_shopping_connector.form.job_instance.tab.google.googleAvailability.options.in_stock
-                out_of_stock: dnd_google_shopping_connector.form.job_instance.tab.google.googleAvailability.options.out_of_stock
-                preorder: dnd_google_shopping_connector.form.job_instance.tab.google.googleAvailability.options.preorder
-
-    # Google Shopping Fields End ---------------------------------------------------------------------------------------
-
-    xml-google-shopping-product-export-edit-content-structure:
+    google-shopping-xml-product-export-edit-content-structure:
         module: pim/job/product/edit/content/structure
-        parent: xml-google-shopping-product-export-edit-content
+        parent: google-shopping-xml-product-export-edit-content
         targetZone: structure-filters
         position: 100
 
-    xml-google-shopping-product-export-edit-label:
+    google-shopping-xml-product-export-edit-label:
         module: pim/job/common/edit/label
-        parent: xml-google-shopping-product-export-edit
+        parent: google-shopping-xml-product-export-edit
         targetZone: title
         position: 100
 
-    xml-google-shopping-product-export-edit-meta:
+    google-shopping-xml-product-export-edit-meta:
         module: pim/job/common/edit/meta
-        parent: xml-google-shopping-product-export-edit
+        parent: google-shopping-xml-product-export-edit
         targetZone: meta
         position: 100
 
-    xml-google-shopping-product-export-edit-back-to-grid:
-        module: pim/form/common/back-to-grid
-        parent: xml-google-shopping-product-export-edit
-        targetZone: back
-        aclResourceId: pim_importexport_export_profile_index
-        position: 80
-        config:
-            backUrl: pim_importexport_export_profile_index
-
-    xml-google-shopping-product-export-edit-delete:
-        module: pim/job/export/edit/delete
-        parent: xml-google-shopping-product-export-edit
+    google-shopping-xml-product-export-edit-secondary-actions:
+        module: pim/form/common/secondary-actions
+        parent: google-shopping-xml-product-export-edit
         targetZone: buttons
+        position: 50
+
+    google-shopping-xml-product-export-edit-delete:
+        module: pim/job/export/edit/delete
+        parent: google-shopping-xml-product-export-edit-secondary-actions
+        targetZone: secondary-actions
         aclResourceId: pim_importexport_export_profile_remove
         position: 100
         config:
             trans:
-                title: confirmation.remove.job_instance
+                title: confirmation.remove.export_profile
+                subTitle: pim_menu.item.export_profile
                 content: pim_enrich.confirmation.delete_item
                 success: flash.job_instance.removed
                 failed: error.removing.job_instance
             redirect: pim_importexport_export_profile_index
 
-    xml-google-shopping-product-export-edit-save-buttons:
+    google-shopping-xml-product-export-edit-save-buttons:
         module: pim/form/common/save-buttons
-        parent: xml-google-shopping-product-export-edit
+        parent: google-shopping-xml-product-export-edit
         targetZone: buttons
         position: 120
 
-    xml-google-shopping-product-export-edit-save:
+    google-shopping-xml-product-export-edit-save:
         module: pim/job-instance-export-edit-form/save
-        parent: xml-google-shopping-product-export-edit
+        parent: google-shopping-xml-product-export-edit
         targetZone: buttons
         position: 0
         config:
             redirectPath: pim_importexport_export_profile_show
 
-    xml-google-shopping-product-export-edit-state:
+    google-shopping-xml-product-export-edit-state:
         module: pim/form/common/state
-        parent: xml-google-shopping-product-export-edit
+        parent: google-shopping-xml-product-export-edit
         targetZone: state
         position: 900
         config:
             entity: pim_enrich.entity.job_instance.title
 
 
-    xml-google-shopping-product-export-edit-content-structure-scope:
+    google-shopping-xml-product-export-edit-content-structure-scope:
         module: pim/job/product/edit/content/structure/scope
-        parent: xml-google-shopping-product-export-edit-content-structure
+        parent: google-shopping-xml-product-export-edit-content-structure
         targetZone: filters
         position: 90
 
-    xml-google-shopping-product-export-edit-content-structure-locales:
+    google-shopping-xml-product-export-edit-content-structure-locales:
         module: pim/job/product/edit/content/structure/locales
-        parent: xml-google-shopping-product-export-edit-content-structure
+        parent: google-shopping-xml-product-export-edit-content-structure
         targetZone: filters
         position: 100
 
-    xml-google-shopping-product-export-edit-content-structure-attributes:
+    google-shopping-xml-product-export-edit-content-structure-attributes:
         module: pim/job/product/edit/content/structure/attributes
-        parent: xml-google-shopping-product-export-edit-content-structure
+        parent: google-shopping-xml-product-export-edit-content-structure
         targetZone: filters
         position: 110
 
-    xml-google-shopping-product-export-edit-content-data:
+    google-shopping-xml-product-export-edit-content-data:
         module: pim/job/product/edit/content/data
-        parent: xml-google-shopping-product-export-edit-content
+        parent: google-shopping-xml-product-export-edit-content
         targetZone: data-filters
         config:
             filters:
@@ -566,22 +284,341 @@ extensions:
                     field: categories
                     view: akeneo-product-category-filter
 
-    xml-google-shopping-product-export-edit-content-default-attribute-filters:
+    google-shopping-xml-product-export-edit-content-default-attribute-filters:
         module: pim/job/product/edit/content/data/default-attribute-filters
-        parent: xml-google-shopping-product-export-edit-content-data
+        parent: google-shopping-xml-product-export-edit-content-data
         config:
             types: [pim_catalog_identifier]
 
-    xml-google-shopping-product-export-edit-content-data-help:
-        module: pim/job/product/edit/content/data/help
-        parent: xml-google-shopping-product-export-edit-content-data
+    google-shopping-xml-product-export-edit-content-data-help:
+        module: pim/job/common/edit/content/data/help
+        parent: google-shopping-xml-product-export-edit-content-data
 
-    xml-google-shopping-product-export-edit-validation:
+    google-shopping-xml-product-export-edit-validation:
         module: pim/job/common/edit/validation
-        parent: xml-google-shopping-product-export-edit
+        parent: google-shopping-xml-product-export-edit
 
-    xml-google-shopping-product-export-edit-content-data-add-filter:
+    google-shopping-xml-product-export-edit-content-data-add-filter:
         module: pim/job/product/edit/content/data/add-select/attribute
-        parent: xml-google-shopping-product-export-edit-content-data
+        parent: google-shopping-xml-product-export-edit-content-data
         targetZone: headings
         position: 90
+
+    google-shopping-xml-product-export-edit-properties-suffix-category:
+        module: pim/job/common/edit/field/text
+        parent: google-shopping-xml-product-export-edit-google-mapping
+        position: 90
+        targetZone: properties
+        config:
+            fieldCode: configuration.suffix_category
+            readOnly: false
+            label: dnd_google_shopping_connector.form.job_instance.tab.google.suffix.title
+            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.suffix.help
+
+    google-shopping-xml-product-export-edit-properties-channelTitle:
+        module: pim/job/common/edit/field/text
+        parent: google-shopping-xml-product-export-edit-google-mapping
+        position: 100
+        targetZone: properties
+        config:
+            fieldCode: configuration.channelTitle
+            readOnly: false
+            label: dnd_google_shopping_connector.form.job_instance.tab.google.channelTitle.title
+            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.channelTitle.help
+
+    google-shopping-xml-product-export-edit-properties-description:
+        module: pim/job/common/edit/field/text
+        parent: google-shopping-xml-product-export-edit-google-mapping
+        position: 110
+        targetZone: properties
+        config:
+            fieldCode: configuration.description
+            readOnly: false
+            label: dnd_google_shopping_connector.form.job_instance.tab.google.description.title
+            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.description.help
+
+    google-shopping-xml-product-export-edit-properties-websiteLink:
+        module: pim/job/common/edit/field/text
+        parent: google-shopping-xml-product-export-edit-google-mapping
+        position: 120
+        targetZone: properties
+        config:
+            fieldCode: configuration.websiteLink
+            readOnly: false
+            label: dnd_google_shopping_connector.form.job_instance.tab.google.websiteLink.title
+            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.websiteLink.help
+
+    google-shopping-xml-product-export-edit-properties-pimMediaUrl:
+        module: pim/job/common/edit/field/text
+        parent: google-shopping-xml-product-export-edit-google-mapping
+        position: 130
+        targetZone: properties
+        config:
+            fieldCode: configuration.pimMediaUrl
+            readOnly: false
+            label: dnd_google_shopping_connector.form.job_instance.tab.google.pimMediaUrl.title
+            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.pimMediaUrl.help
+
+    google-shopping-xml-product-export-edit-properties-currency:
+     module: currencies-list
+     parent: google-shopping-xml-product-export-edit-google-mapping
+     position: 140
+     targetZone: properties
+     config:
+         fieldCode: configuration.currency
+         readOnly: false
+         label: dnd_google_shopping_connector.form.job_instance.tab.google.currency.title
+         tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.currency.help
+
+    google-shopping-xml-product-export-edit-properties-googleId:
+        module: attributes-list
+        parent: google-shopping-xml-product-export-edit-google-mapping
+        position: 150
+        targetZone: properties
+        config:
+            fieldCode: configuration.googleId
+            readOnly: false
+            label: dnd_google_shopping_connector.form.job_instance.tab.google.googleId.title
+            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googleId.help
+
+    google-shopping-xml-product-export-edit-properties-googleTitle:
+        module: attributes-list
+        parent: google-shopping-xml-product-export-edit-google-mapping
+        position: 160
+        targetZone: properties
+        config:
+            fieldCode: configuration.googleTitle
+            readOnly: false
+            label: dnd_google_shopping_connector.form.job_instance.tab.google.googleTitle.title
+            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googleTitle.help
+
+    google-shopping-xml-product-export-edit-properties-googleDescription:
+        module: attributes-list
+        parent: google-shopping-xml-product-export-edit-google-mapping
+        position: 170
+        targetZone: properties
+        config:
+            fieldCode: configuration.googleDescription
+            readOnly: false
+            label: dnd_google_shopping_connector.form.job_instance.tab.google.googleDescription.title
+            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googleDescription.help
+
+    google-shopping-xml-product-export-edit-properties-googleLink:
+        module: attributes-list
+        parent: google-shopping-xml-product-export-edit-google-mapping
+        position: 180
+        targetZone: properties
+        config:
+            fieldCode: configuration.googleLink
+            readOnly: false
+            label: dnd_google_shopping_connector.form.job_instance.tab.google.googleLink.title
+            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googleLink.help
+
+    google-shopping-xml-product-export-edit-properties-googleImagesLink:
+        module: attributes-list
+        parent: google-shopping-xml-product-export-edit-google-mapping
+        position: 190
+        targetZone: properties
+        config:
+            fieldCode: configuration.googleImagesLink
+            readOnly: false
+            label: dnd_google_shopping_connector.form.job_instance.tab.google.googleImagesLink.title
+            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googleImagesLink.help
+
+    google-shopping-xml-product-export-edit-properties-googlePrice:
+        module: attributes-list
+        parent: google-shopping-xml-product-export-edit-google-mapping
+        position: 200
+        targetZone: properties
+        config:
+            fieldCode: configuration.googlePrice
+            readOnly: false
+            label: dnd_google_shopping_connector.form.job_instance.tab.google.googlePrice.title
+            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googlePrice.help
+
+    google-shopping-xml-product-export-edit-properties-googleGtin:
+        module: attributes-list
+        parent: google-shopping-xml-product-export-edit-google-mapping
+        position: 210
+        targetZone: properties
+        config:
+            fieldCode: configuration.googleGtin
+            readOnly: false
+            label: dnd_google_shopping_connector.form.job_instance.tab.google.googleGtin.title
+            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googleGtin.help
+
+    google-shopping-xml-product-export-edit-properties-googleBrand:
+        module: attributes-list
+        parent: google-shopping-xml-product-export-edit-google-mapping
+        position: 220
+        targetZone: properties
+        config:
+            fieldCode: configuration.googleBrand
+            readOnly: false
+            label: dnd_google_shopping_connector.form.job_instance.tab.google.googleBrand.title
+            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googleBrand.help
+
+    google-shopping-xml-product-export-edit-properties-googleColor:
+        module: attributes-list
+        parent: google-shopping-xml-product-export-edit-google-mapping
+        position: 230
+        targetZone: properties
+        config:
+            fieldCode: configuration.googleColor
+            readOnly: false
+            label: dnd_google_shopping_connector.form.job_instance.tab.google.googleColor.title
+            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googleColor.help
+
+    google-shopping-xml-product-export-edit-properties-googleGender:
+        module: pim/job/common/edit/field/select
+        parent: google-shopping-xml-product-export-edit-google-mapping
+        position: 240
+        targetZone: properties
+        config:
+            fieldCode: configuration.googleGender
+            readOnly: false
+            label: dnd_google_shopping_connector.form.job_instance.tab.google.googleGender.title
+            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googleGender.help
+            options:
+                default:
+                unisex: dnd_google_shopping_connector.form.job_instance.tab.google.googleGender.options.unisex
+                male: dnd_google_shopping_connector.form.job_instance.tab.google.googleGender.options.male
+                female: dnd_google_shopping_connector.form.job_instance.tab.google.googleGender.options.female
+
+    google-shopping-xml-product-export-edit-properties-googleAgeGroup:
+        module: pim/job/common/edit/field/select
+        parent: google-shopping-xml-product-export-edit-google-mapping
+        position: 250
+        targetZone: properties
+        config:
+            fieldCode: configuration.googleAgeGroup
+            readOnly: false
+            label: dnd_google_shopping_connector.form.job_instance.tab.google.googleAgeGroup.title
+            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googleAgeGroup.help
+            options:
+                default:
+                newborn: dnd_google_shopping_connector.form.job_instance.tab.google.googleAgeGroup.options.newborn
+                infant: dnd_google_shopping_connector.form.job_instance.tab.google.googleAgeGroup.options.infant
+                toddler: dnd_google_shopping_connector.form.job_instance.tab.google.googleAgeGroup.options.toddler
+                kids: dnd_google_shopping_connector.form.job_instance.tab.google.googleAgeGroup.options.kids
+                adult: dnd_google_shopping_connector.form.job_instance.tab.google.googleAgeGroup.options.adult
+
+    google-shopping-xml-product-export-edit-properties-googleMaterial:
+        module: attributes-list
+        parent: google-shopping-xml-product-export-edit-google-mapping
+        position: 260
+        targetZone: properties
+        config:
+            fieldCode: configuration.googleMaterial
+            readOnly: false
+            label: dnd_google_shopping_connector.form.job_instance.tab.google.googleMaterial.title
+            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googleMaterial.help
+
+    google-shopping-xml-product-export-edit-properties-googleSize:
+        module: attributes-list
+        parent: google-shopping-xml-product-export-edit-google-mapping
+        position: 270
+        targetZone: properties
+        config:
+            fieldCode: configuration.googleSize
+            readOnly: false
+            label: dnd_google_shopping_connector.form.job_instance.tab.google.googleSize.title
+            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googleSize.help
+
+    google-shopping-xml-product-export-edit-properties-googlePattern:
+        module: attributes-list
+        parent: google-shopping-xml-product-export-edit-google-mapping
+        position: 280
+        targetZone: properties
+        config:
+            fieldCode: configuration.googlePattern
+            readOnly: false
+            label: dnd_google_shopping_connector.form.job_instance.tab.google.googlePattern.title
+            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googlePattern.help
+
+    google-shopping-xml-product-export-edit-properties-PersonalizeOne:
+        module: attributes-list
+        parent: google-shopping-xml-product-export-edit-google-mapping
+        position: 290
+        targetZone: properties
+        config:
+            fieldCode: configuration.googlePersonalizeOne
+            readOnly: false
+            label: dnd_google_shopping_connector.form.job_instance.tab.google.googlePersonalizeOne.title
+            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googlePersonalizeOne.help
+
+    google-shopping-xml-product-export-edit-properties-PersonalizeTwo:
+        module: attributes-list
+        parent: google-shopping-xml-product-export-edit-google-mapping
+        position: 300
+        targetZone: properties
+        config:
+            fieldCode: configuration.googlePersonalizeTwo
+            readOnly: false
+            label: dnd_google_shopping_connector.form.job_instance.tab.google.googlePersonalizeTwo.title
+            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googlePersonalizeTwo.help
+
+    google-shopping-xml-product-export-edit-properties-PersonalizeThree:
+        module: attributes-list
+        parent: google-shopping-xml-product-export-edit-google-mapping
+        position: 310
+        targetZone: properties
+        config:
+            fieldCode: configuration.googlePersonalizeThree
+            readOnly: false
+            label: dnd_google_shopping_connector.form.job_instance.tab.google.googlePersonalizeThree.title
+            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googlePersonalizeThree.help
+
+    google-shopping-xml-product-export-edit-properties-PersonalizeFour:
+        module: attributes-list
+        parent: google-shopping-xml-product-export-edit-google-mapping
+        position: 320
+        targetZone: properties
+        config:
+            fieldCode: configuration.googlePersonalizeFour
+            readOnly: false
+            label: dnd_google_shopping_connector.form.job_instance.tab.google.googlePersonalizeFour.title
+            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googlePersonalizeFour.help
+
+    google-shopping-xml-product-export-edit-properties-PersonalizeFive:
+        module: attributes-list
+        parent: google-shopping-xml-product-export-edit-google-mapping
+        position: 330
+        targetZone: properties
+        config:
+            fieldCode: configuration.googlePersonalizeFive
+            readOnly: false
+            label: dnd_google_shopping_connector.form.job_instance.tab.google.googlePersonalizeFive.title
+            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googlePersonalizeFive.help
+
+    google-shopping-xml-product-export-edit-properties-googleCondition:
+        module: pim/job/common/edit/field/select
+        parent: google-shopping-xml-product-export-edit-google-mapping
+        position: 340
+        targetZone: properties
+        config:
+            fieldCode: configuration.googleCondition
+            readOnly: false
+            label: dnd_google_shopping_connector.form.job_instance.tab.google.googleCondition.title
+            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googleCondition.help
+            options:
+                default:
+                new: dnd_google_shopping_connector.form.job_instance.tab.google.googleCondition.options.new
+                refurbished: dnd_google_shopping_connector.form.job_instance.tab.google.googleCondition.options.refurbished
+                used: dnd_google_shopping_connector.form.job_instance.tab.google.googleCondition.options.used
+
+    google-shopping-xml-product-export-edit-properties-googleAvailability:
+        module: pim/job/common/edit/field/select
+        parent: google-shopping-xml-product-export-edit-google-mapping
+        position: 350
+        targetZone: properties
+        config:
+            fieldCode: configuration.googleAvailability
+            readOnly: false
+            label: dnd_google_shopping_connector.form.job_instance.tab.google.googleAvailability.title
+            tooltip: dnd_google_shopping_connector.form.job_instance.tab.google.googleAvailability.help
+            options:
+                default:
+                in_stock: dnd_google_shopping_connector.form.job_instance.tab.google.googleAvailability.options.in_stock
+                out_of_stock: dnd_google_shopping_connector.form.job_instance.tab.google.googleAvailability.options.out_of_stock
+                preorder: dnd_google_shopping_connector.form.job_instance.tab.google.googleAvailability.options.preorder

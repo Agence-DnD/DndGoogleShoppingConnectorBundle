@@ -6,13 +6,15 @@ define([
     'underscore',
     'oro/translator',
     'pim/fetcher-registry',
-    'pim/job/common/edit/field/select'
+    'pim/job/common/edit/field/select',
+    'routing'
 ], function (
     $,
     _,
     __,
     FetcherRegistry,
-    SelectField
+    SelectField,
+    Routing
 ) {
     return SelectField.extend({
         /**
@@ -25,7 +27,7 @@ define([
             ).then(function (attributesList) {
                 if (_.isEmpty(attributesList)) {
                     this.config.readOnly = true;
-                    this.config.options = {'NO OPTION': __('dnd_google_shopping.google_category_reader.attributes.no_attribute')};
+                    this.config.options = {'NO OPTION': __('dnd_google_shopping.google_attribute_reader.attribute.no_attribute')};
                 } else {
                     this.config.options = attributesList;
                 }

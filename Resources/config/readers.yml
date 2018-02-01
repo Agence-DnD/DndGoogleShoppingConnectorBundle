@@ -1,7 +1,10 @@
 parameters:
-    pim_connector.reader.file.xlsx.google_category.class: Dnd\Bundle\GoogleShoppingConnectorBundle\Reader\File\Xlsx\GoogleCategoryReader
-
+    dnd_google_shopping_connector.reader.file.xlsx.google_category.class: Dnd\Bundle\GoogleShoppingConnectorBundle\Connector\Reader\File\Xlsx\GoogleCategoryReader
 services:
-    pim_connector.reader.file.xlsx.google_category:
-        class: %pim_connector.reader.file.xlsx.google_category.class%
-        parent: pim_connector.reader.file.xlsx_category
+    dnd_google_shopping_connector.reader.file.xlsx.google_category:
+        class: '%dnd_google_shopping_connector.reader.file.xlsx.google_category.class%'
+        arguments:
+            - '@pim_connector.reader.file.xlsx_iterator_factory'
+            - '@pim_connector.array_converter.flat_to_standard.category'
+            - []
+            - '@pim_catalog.repository.locale'

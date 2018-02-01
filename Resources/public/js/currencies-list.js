@@ -6,13 +6,15 @@ define([
     'underscore',
     'oro/translator',
     'pim/fetcher-registry',
-    'pim/job/common/edit/field/select'
+    'pim/job/common/edit/field/select',
+    'routing'
 ], function (
     $,
     _,
     __,
     FetcherRegistry,
-    SelectField
+    SelectField,
+    Routing
 ) {
     return SelectField.extend({
         /**
@@ -20,14 +22,14 @@ define([
          */
         configure: function () {
             return $.when(
-                FetcherRegistry.getFetcher('parent-categories-list').fetchAll(),
+                FetcherRegistry.getFetcher('currencies-list').fetchAll(),
                 SelectField.prototype.configure.apply(this, arguments)
-            ).then(function (parentCategoriesList) {
-                if (_.isEmpty(parentCategoriesList)) {
+            ).then(function (currenciesList) {
+                if (_.isEmpty(currenciesList)) {
                     this.config.readOnly = true;
-                    this.config.options = {'NO OPTION': __('dnd_google_shopping.google_category_reader.category.no_category')};
+                    this.config.options = {'NO OPTION': __('dnd_google_shopping.google_currency_reader.currency.no_currency')};
                 } else {
-                    this.config.options = parentCategoriesList;
+                    this.config.options = currenciesList;
                 }
             }.bind(this));
         }

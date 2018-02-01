@@ -5,7 +5,7 @@ services:
             - 'import'
             - '@event_dispatcher'
             - '@akeneo_batch.job_repository'
-            - '@pim_connector.reader.file.xlsx.google_category'
+            - '@dnd_google_shopping_connector.reader.file.xlsx.google_category'
             - '@pim_connector.processor.denormalization.category'
             - '@pim_connector.writer.database.category'
             - 10
@@ -13,7 +13,7 @@ services:
     dnd_google_shopping_connector.step.xml_product.export:
         class: '%pim_connector.step.item_step.class%'
         arguments:
-            - 'export_product_step'
+            - 'export'
             - '@event_dispatcher'
             - '@akeneo_batch.job_repository'
             - '@pim_connector.reader.database.product'

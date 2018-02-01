@@ -1,12 +1,18 @@
-dnd_google_shopping_connector_parent_categories_list:
-    path: /parent-categories
-    defaults: { _controller: dnd_google_shopping_connector.rest.controller:listParentCategoriesAction}
+pim_google_shopping_category_rest_index:
+    path: /rest/categories
+    defaults: { _controller: dnd_google_shopping_connector.rest.category.controller:listAllAction}
     methods: [GET]
-dnd_google_shopping_connector_attributes_list:
-    path: /attributes
-    defaults: { _controller: dnd_google_shopping_connector.rest.controller:listAttributesAction}
+    options:
+        expose: true
+pim_google_shopping_attribute_rest_index:
+    path: /rest/attributes
+    defaults: { _controller: dnd_google_shopping_connector.rest.attribute.controller:listAllAction}
     methods: [GET]
-dnd_google_shopping_connector_available_currencies_list:
-    path: /available-currencies
-    defaults: { _controller: dnd_google_shopping_connector.rest.controller:listAvailableCurrenciesAction}
+    options:
+        expose: true
+pim_google_shopping_currency_rest_index:
+    path: /rest/currencies
+    defaults: { _controller: dnd_google_shopping_connector.rest.currency.controller:listAllAction}
     methods: [GET]
+    options:
+        expose: true

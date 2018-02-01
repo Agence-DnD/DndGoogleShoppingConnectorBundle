@@ -1,0 +1,22 @@
+parameters:
+    dnd_google_shopping_connector.job.job_parameters.default_values_provider.google_category_xlsx_import.class: Dnd\Bundle\GoogleShoppingConnectorBundle\Job\JobParameters\DefaultValuesProvider\GoogleCategoryXlsxImport
+    dnd_google_shopping_connector.job.job_parameters.default_values_provider.product_xml_export.class: Dnd\Bundle\GoogleShoppingConnectorBundle\Job\JobParameters\DefaultValuesProvider\ProductXmlExport
+services:
+    dnd_google_shopping_connector.job.job_parameters.default_values_provider.google_category_xlsx_import:
+        class: '%dnd_google_shopping_connector.job.job_parameters.default_values_provider.google_category_xlsx_import.class%'
+        arguments:
+            -
+                - 'google_shopping_xlsx_category_import'
+        tags:
+            - { name: akeneo_batch.job.job_parameters.default_values_provider }
+
+    dnd_google_shopping_connector.job.job_parameters.default_values_provider.product_xml_export:
+        class: '%dnd_google_shopping_connector.job.job_parameters.default_values_provider.product_xml_export.class%'
+        arguments:
+            - '@pim_connector.job.job_parameters.default_values_provider.simple_csv_export'
+            - '@pim_catalog.repository.channel'
+            - '@pim_catalog.repository.locale'
+            -
+                - 'google_shopping_xml_product_export'
+        tags:
+            - { name: akeneo_batch.job.job_parameters.default_values_provider }

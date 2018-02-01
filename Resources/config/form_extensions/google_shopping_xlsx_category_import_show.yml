@@ -1,0 +1,119 @@
+extensions:
+    google-shopping-xlsx-category-import-show:
+        module: pim/form/common/edit-form
+
+    google-shopping-xlsx-category-import-show-main-image:
+        module: pim/form/common/main-image
+        parent: google-shopping-xlsx-category-import-show
+        targetZone: main-image
+        config:
+            path: bundles/pimui/images/illustration-import-xlsx.svg
+
+    google-shopping-xlsx-category-import-show-user-navigation:
+        module: pim/menu/user-navigation
+        parent: google-shopping-xlsx-category-import-show
+        targetZone: user-menu
+        config:
+            userAccount: pim_menu.user.user_account
+            logout: pim_menu.user.logout
+
+    google-shopping-xlsx-category-import-show-breadcrumbs:
+        module: pim/common/breadcrumbs
+        parent: google-shopping-xlsx-category-import-show
+        targetZone: breadcrumbs
+        config:
+            tab: pim-menu-imports
+
+    google-shopping-xlsx-category-import-show-switcher:
+        module: pim/job-instance/import/switcher
+        parent: google-shopping-xlsx-category-import-show
+        position: 0
+        targetZone: meta
+
+    google-shopping-xlsx-category-import-show-launch-switcher-item:
+        module: pim/job-instance/import/switcher-item
+        parent: google-shopping-xlsx-category-import-show
+        targetZone: content
+        aclResourceId: pim_importexport_import_profile_launch
+        position: 40
+        config:
+            label: pim_enrich.form.job_instance.button.import.launch
+
+    google-shopping-xlsx-category-import-show-file-path:
+        module: pim/job/common/file-path
+        parent: google-shopping-xlsx-category-import-show-launch-switcher-item
+        config:
+            label: pim_enrich.form.job_instance.file_path
+
+    google-shopping-xlsx-category-import-show-import-button:
+        module: pim/job/common/edit/launch
+        parent: google-shopping-xlsx-category-import-show-file-path
+        config:
+            label: pim_enrich.form.job_instance.button.import.launch
+            route: pim_enrich_job_instance_rest_import_launch
+            identifier:
+                path: code
+                name: code
+
+    google-shopping-xlsx-category-import-show-upload-switcher-item:
+        module: pim/job-instance/import/switcher-item
+        parent: google-shopping-xlsx-category-import-show
+        targetZone: content
+        aclResourceId: pim_importexport_import_profile_launch
+        position: 50
+        config:
+            label: pim_enrich.form.job_instance.button.import.upload_file
+
+    google-shopping-xlsx-category-import-show-upload:
+        module: pim/job/common/edit/upload
+        parent: google-shopping-xlsx-category-import-show-upload-switcher-item
+        position: 50
+        config:
+            type: xlsx
+
+    google-shopping-xlsx-category-import-show-upload-button:
+        module: pim/job/common/edit/upload-launch
+        parent: google-shopping-xlsx-category-import-show-upload-switcher-item
+        position: 60
+        config:
+            label: pim_enrich.form.job_instance.button.import.upload
+            route: pim_enrich_job_instance_rest_import_launch
+            identifier:
+                path: code
+                name: code
+
+    google-shopping-xlsx-category-import-show-subsection:
+        module: pim/form/common/subsection
+        parent: google-shopping-xlsx-category-import-show
+        targetZone: content
+        config:
+            title: pim_enrich.form.job_instance.subsection.last_executions
+
+    google-shopping-xlsx-category-import-show-grid:
+        module: pim/job/common/grid
+        parent: google-shopping-xlsx-category-import-show-subsection
+        position: 1000
+        targetZone: content
+        config:
+            alias: last-import-executions-grid
+            metadata:
+                jobType: import
+
+    google-shopping-xlsx-category-import-show-label:
+        module: pim/job/common/edit/label
+        parent: google-shopping-xlsx-category-import-show
+        targetZone: title
+        position: 100
+
+    google-shopping-xlsx-category-import-show-edit:
+        module: pim/common/redirect
+        parent: google-shopping-xlsx-category-import-show
+        targetZone: buttons
+        position: 100
+        config:
+            label: pim_enrich.form.job_instance.button.edit.title
+            route: pim_importexport_import_profile_edit
+            buttonClass: AknButton AknButton--action
+            identifier:
+                path: code
+                name: code

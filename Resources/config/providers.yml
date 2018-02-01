@@ -1,0 +1,9 @@
+services:
+    dnd_google_shopping_connector_enrich.provider.form.job_instance:
+        class: '%pim_enrich.provider.form.job_instance.class%'
+        arguments:
+            -
+                google_shopping_xlsx_category_import: google-shopping-xlsx-category-import
+                google_shopping_xml_product_export: google-shopping-xml-product-export
+        tags:
+            - { name: pim_enrich.provider.form, priority: 100 }
