@@ -32,7 +32,7 @@ In your ```composer.json```, add the following code:
 
 ```json
 {
-    "agencednd/google-shopping-connector-bundle": "1.2.*"
+    "agencednd/google-shopping-connector-bundle": "1.3.*"
 }
 ```
 
