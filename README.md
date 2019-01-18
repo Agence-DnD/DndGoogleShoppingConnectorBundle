@@ -77,4 +77,4 @@ $ ln -s /my/pim/installation/dir/web/file_storage /my/pim/installation/dir/app/f
 * Map your attributes to Google Shopping attributes (leave empty if you don't use one of them, see the [Documentation](https://support.google.com/merchants/answer/1344057?hl=en&ref_topic=3404778) to know the required attributes)
 
 ## About us
-Founded by lovers of innovation and design, [Agence Dn'D] (http://www.dnd.fr) assists companies for 11 years in the creation and development of customized digital (open source) solutions for web and E-commerce.
+Founded by lovers of innovation and design, [Agence Dn'D](https://www.dnd.fr) assists companies in the creation and development of customized digital (open source) solutions for web and E-commerce since 2004.
