@@ -5,6 +5,16 @@ Google Shopping Connector for Akeneo PIM >= 1.5
 
 This connector allows you to export your products into XML for Google Shopping.
 
+It will create a new "Google Shopping" export type in which you can map your Akeneo attributes to the mandatory attributes needed for Google Shopping exports. The connector will generate a XML file with the correct header for Google Shopping integration.
+
+## Video demonstration
+
+You can watch the webinar dedicated to the extension :
+
+[English version](https://www.youtube.com/watch?v=XozxmHdu-68)
+
+[French version](https://www.youtube.com/watch?v=QB9466a01A0)
+
 ## Requirements
 
 | GoogleShoppingConnectorBundle   | Akeneo PIM Community Edition |
